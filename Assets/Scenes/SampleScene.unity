@@ -592,6 +592,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tree Type1 02
       objectReference: {fileID: 0}
+    - target: {fileID: 2866231368112593594, guid: 091ca944a370f0f438f21caae72e472f, type: 3}
+      propertyPath: m_TagString
+      value: tree
+      objectReference: {fileID: 0}
     - target: {fileID: 8539916799047959566, guid: 091ca944a370f0f438f21caae72e472f, type: 3}
       propertyPath: m_RootOrder
       value: 1

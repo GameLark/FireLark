@@ -22,13 +22,21 @@ public class InteractControl : MonoBehaviour
         if (Input.GetKeyDown("e")) {
             Debug.Log("E pressed...");
             if (Physics.Raycast(ray, out hitData)) {
-                Debug.Log(hitData);
-            }
-            
-        }
-        // else {
-        //     hitData = null;
-        // }
+                GameObject target = hitData.transform.gameObject;
 
+                if(target.tag == "tree") {
+                    // call tree script 'interact' method
+                    Interaction interactScript = target.GetComponent<Interaction>();
+                    Debug.Log("Interact script");
+                    Debug.Log(interactScript);
+
+                    if(interactScript) {
+                        int woodGained = interactScript.Interact("e");
+
+                        Debug.Log($"Got {woodGained} wood!");
+                    }
+                }
+            }
+        }
     }
 }

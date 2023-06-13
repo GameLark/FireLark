@@ -5,6 +5,7 @@ using UnityEngine;
 public class InteractControl : MonoBehaviour
 {
     public Camera camera;
+    public double treeInteractionDistance = 1.35;
     Ray ray;
     RaycastHit hitData;
 
@@ -25,15 +26,18 @@ public class InteractControl : MonoBehaviour
                 GameObject target = hitData.transform.gameObject;
 
                 if(target.tag == "tree") {
-                    // call tree script 'interact' method
-                    Interaction interactScript = target.GetComponent<Interaction>();
-                    Debug.Log("Interact script");
-                    Debug.Log(interactScript);
+                    Debug.Log($"Distance to tree: {hitData.distance}");
+                    if(hitData.distance < treeInteractionDistance) {
+                        // call tree script 'interact' method
+                        Interaction interactScript = target.GetComponent<Interaction>();
+                        Debug.Log("Interact script");
+                        Debug.Log(interactScript);
 
-                    if(interactScript) {
-                        int woodGained = interactScript.Interact("e");
+                        if(interactScript) {
+                            int woodGained = interactScript.Interact("e");
 
-                        Debug.Log($"Got {woodGained} wood!");
+                            Debug.Log($"Got {woodGained} wood!");
+                        }
                     }
                 }
             }

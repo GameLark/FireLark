@@ -5,14 +5,14 @@ using UnityEngine;
 public class InteractControl : MonoBehaviour
 {
     public Camera camera;
-    public double treeInteractionDistance = 1.35;
+    public double treeInteractionDistance = 2.0;
     Ray ray;
     RaycastHit hitData;
 
     // Start is called before the first frame update
     void Start()
     {
-        camera = GetComponent<Camera>();
+
     }
 
     // Update is called once per frame
@@ -37,6 +37,12 @@ public class InteractControl : MonoBehaviour
                             int woodGained = interactScript.Interact("e");
 
                             Debug.Log($"Got {woodGained} wood!");
+
+                            PlayerData playerData = gameObject.GetComponent<PlayerData>();
+                            Debug.Log($"Player Data: {playerData}");
+                            playerData.GetWood(woodGained);
+
+                            Debug.Log($"Total wood gained so far: {playerData.GetWood()}");
                         }
                     }
                 }

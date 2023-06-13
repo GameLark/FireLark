@@ -1305,9 +1305,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5241267463746980526, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2122331447}
-    - targetCorrespondingSourceObject: {fileID: 5242010300582068122, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 5241267463746980526, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1983124800}
+      addedObject: {fileID: 2122331452}
+    - targetCorrespondingSourceObject: {fileID: 5241267463746980526, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2122331453}
   m_SourcePrefab: {fileID: 100100000, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
 --- !u!1001 &1773526058
 PrefabInstance:
@@ -1508,30 +1511,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 091ca944a370f0f438f21caae72e472f, type: 3}
---- !u!1 &1983124794 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5242010300582068122, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
-  m_PrefabInstance: {fileID: 1712082377}
-  m_PrefabAsset: {fileID: 0}
 --- !u!20 &1983124799 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 5256384803381100468, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
   m_PrefabInstance: {fileID: 1712082377}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1983124800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1983124794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b96fe86331e5761e9e82869d79ea0ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 1983124799}
-  treeInteractionDistance: 2
 --- !u!4 &2000344535 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8539916799047959566, guid: 091ca944a370f0f438f21caae72e472f, type: 3}
@@ -1556,6 +1540,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpStrength: 2
   groundCheck: {fileID: 1847772706}
+--- !u!114 &2122331452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122331442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7b30c393445e5f58b19dad6e2b1d35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2122331453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122331442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b96fe86331e5761e9e82869d79ea0ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 1983124799}
+  treeInteractionDistance: 2
 --- !u!1001 &432064351739040944
 PrefabInstance:
   m_ObjectHideFlags: 0

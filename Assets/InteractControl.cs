@@ -56,13 +56,13 @@ public class InteractControl : MonoBehaviour
                 else if (target.tag == "log")
                 {
                     Debug.Log("Interact with log");
-                    var fixedJoint = GetComponent<FixedJoint>();
+                    var fixedJoint = camera.GetComponent<FixedJoint>();
                     var targetRigidBody = target.GetComponent<Rigidbody>();
                     if (fixedJoint != null) {
                         Destroy(fixedJoint);
                     } else {
                         // connect
-                        fixedJoint = gameObject.AddComponent<FixedJoint>();
+                        fixedJoint = camera.gameObject.AddComponent<FixedJoint>();
                         fixedJoint.connectedBody = targetRigidBody;
                         fixedJoint.connectedAnchor = target.transform.position;
                         fixedJoint.enableCollision = false;

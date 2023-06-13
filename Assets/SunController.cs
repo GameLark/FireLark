@@ -5,14 +5,12 @@ using UnityEngine;
 public class SunController : MonoBehaviour
 {
 
-    private Light light;
     private float times;
 
     
     // Start is called before the first frame update
     void Start()
     {
-        light = this.gameObject.transform.GetComponentInChildren<Light>();
     }
 
     // Update is called once per frame
@@ -23,7 +21,7 @@ public class SunController : MonoBehaviour
     }
 
     void UpdateSunLocation() {
-        this.gameObject.transform.RotateAround(Vector3.up, Vector3.forward, times);
+        this.gameObject.transform.RotateAround(Vector3.up, Vector3.back, times);
     }
 
     void ResetSunLocation() {

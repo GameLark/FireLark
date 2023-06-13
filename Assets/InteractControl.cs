@@ -22,39 +22,51 @@ public class InteractControl : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction*10);
         if (Input.GetKeyDown("e")) {
             Debug.Log("E pressed...");
-            if (Physics.Raycast(ray, out hitData)) {
+            if (Physics.Raycast(ray, out hitData) && hitData.distance < treeInteractionDistance) {
                 GameObject target = hitData.transform.gameObject;
 
                 if(target.tag == "tree") {
                     Debug.Log($"Distance to tree: {hitData.distance}");
-                    if(hitData.distance < treeInteractionDistance) {
-                        // call tree script 'interact' method
-                        Interaction interactScript = target.GetComponent<Interaction>();
-                        Debug.Log("Interact script");
-                        Debug.Log(interactScript);
+                    // call tree script 'interact' method
+                    Interaction interactScript = target.GetComponent<Interaction>();
+                    Debug.Log("Interact script");
+                    Debug.Log(interactScript);
 
-                        int woodGained = interactScript.Interact("e");
+                    int woodGained = interactScript.Interact("e");
 
-                        Debug.Log($"Got {woodGained} wood!");
+                    Debug.Log($"Got {woodGained} wood!");
 
-                        PlayerData playerData = gameObject.GetComponent<PlayerData>();
-                        Debug.Log($"Player Data: {playerData}");
-                        playerData.GetWood(woodGained);
+                    PlayerData playerData = gameObject.GetComponent<PlayerData>();
+                    Debug.Log($"Player Data: {playerData}");
+                    playerData.GetWood(woodGained);
 
-                        Debug.Log($"Total wood gained so far: {playerData.GetWood()}");
-                    }
+                    Debug.Log($"Total wood gained so far: {playerData.GetWood()}");
                 }
                 else if(target.tag == "fire")
                 {
-                    if(hitData.distance < treeInteractionDistance) {
-                        Debug.Log("Interact with fire");
-                        PlayerData playerData = gameObject.GetComponent<PlayerData>();
+                    Debug.Log("Interact with fire");
+                    PlayerData playerData = gameObject.GetComponent<PlayerData>();
 
-                        if(playerData.GetWood() > 0) {
-                            FeedFire fireScript = target.GetComponent<FeedFire>();
-                            playerData.GetWood(-1);
-                            fireScript.AddWood(1);
-                        }
+                    if(playerData.GetWood() > 0) {
+                        FeedFire fireScript = target.GetComponent<FeedFire>();
+                        playerData.GetWood(-1);
+                        fireScript.AddWood(1);
+                    }
+                }
+                else if (target.tag == "log")
+                {
+                    Debug.Log("Interact with log");
+                    var fixedJoint = GetComponent<FixedJoint>();
+                    var targetRigidBody = target.GetComponent<Rigidbody>();
+                    if (fixedJoint != null) {
+                        Destroy(fixedJoint);
+                    } else {
+                        // connect
+                        fixedJoint = gameObject.AddComponent<FixedJoint>();
+                        fixedJoint.connectedBody = targetRigidBody;
+                        fixedJoint.connectedAnchor = target.transform.position;
+                        fixedJoint.enableCollision = false;
+                        fixedJoint.anchor = transform.position;
                     }
                 }
             }

@@ -1152,6 +1152,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3592735396597560601, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3592735396597560601, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5222740939418225544, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5238820401998598406, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1224,8 +1236,13 @@ PrefabInstance:
       propertyPath: canRun
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9118747666186633199, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
+      propertyPath: m_EnableCollision
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5473351593716229896, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5241267463746980526, guid: f2e0b7ae4dae8cf44955bccd3512b213, type: 3}
@@ -1609,9 +1626,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5462197046241347792, guid: 96d9595c1204a6041857555e1fed22aa, type: 3}
+      propertyPath: m_TagString
+      value: log
+      objectReference: {fileID: 0}
     - target: {fileID: 6955365753091733274, guid: 96d9595c1204a6041857555e1fed22aa, type: 3}
       propertyPath: m_Name
       value: Log
+      objectReference: {fileID: 0}
+    - target: {fileID: 6955365753091733274, guid: 96d9595c1204a6041857555e1fed22aa, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

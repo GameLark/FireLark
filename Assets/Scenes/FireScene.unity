@@ -1515,17 +1515,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5462197046241347792, guid: 96d9595c1204a6041857555e1fed22aa, type: 3}
-      propertyPath: m_TagString
-      value: log
+    - target: {fileID: 2968404436854134447, guid: 96d9595c1204a6041857555e1fed22aa, type: 3}
+      propertyPath: offset.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6955365753091733274, guid: 96d9595c1204a6041857555e1fed22aa, type: 3}
       propertyPath: m_Name
       value: Log
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955365753091733274, guid: 96d9595c1204a6041857555e1fed22aa, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

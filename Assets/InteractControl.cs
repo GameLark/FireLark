@@ -8,6 +8,7 @@ public class InteractControl : MonoBehaviour
     public double treeInteractionDistance = 2.0;
     Ray ray;
     RaycastHit hitData;
+    private GameObject currentlyOutlined;
 
     // Start is called before the first frame update
     void Start()
@@ -20,11 +21,21 @@ public class InteractControl : MonoBehaviour
     {
         ray = camera.ViewportPointToRay(new Vector3 (0.5f, 0.5f, 0));
         Debug.DrawRay(ray.origin, ray.direction*10);
-        if (Input.GetKeyDown("e")) {
-            Debug.Log("E pressed...");
-            if (Physics.Raycast(ray, out hitData) && hitData.distance < treeInteractionDistance) {
-                GameObject target = hitData.transform.gameObject;
+        if (Physics.Raycast(ray, out hitData) && hitData.distance < treeInteractionDistance) {
+            GameObject target = hitData.transform.gameObject;
 
+            // outlining TODO: buggy
+            if (target != currentlyOutlined) {
+                if (currentlyOutlined != null) {
+                    ToggleOutline(currentlyOutlined);
+                }
+                ToggleOutline(target);
+                currentlyOutlined = target;
+            }
+
+            // e interaction
+            if (Input.GetKeyDown("e")) {
+                Debug.Log("E pressed...");
                 if(target.tag == "tree") {
                     Debug.Log($"Distance to tree: {hitData.distance}");
                     // call tree script 'interact' method
@@ -70,6 +81,23 @@ public class InteractControl : MonoBehaviour
                     }
                 }
             }
+        } else if (currentlyOutlined != null) {
+            // we are now not looking at this object
+            ToggleOutline(currentlyOutlined);
+        }
+    }
+
+    private void ToggleOutline(GameObject g) {
+        return; // TODO: currently a bit buggy
+        if (g.tag != "log") { // TODO: use some better discriminator
+            return;
+        }
+
+        var outline = g.GetComponent<cakeslice.Outline>();
+        if (outline != null) {
+            Destroy(outline);
+        } else {
+            g.AddComponent<cakeslice.Outline>();
         }
     }
 }

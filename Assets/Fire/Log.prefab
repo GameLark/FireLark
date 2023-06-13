@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 1934930444664809496}
   m_Layer: 0
   m_Name: Log
-  m_TagString: Untagged
+  m_TagString: log
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5026,7 +5026,7 @@ GameObject:
   - component: {fileID: 1280075445514827590}
   m_Layer: 0
   m_Name: Log
-  m_TagString: log
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

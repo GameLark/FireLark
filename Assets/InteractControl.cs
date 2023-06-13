@@ -33,16 +33,27 @@ public class InteractControl : MonoBehaviour
                         Debug.Log("Interact script");
                         Debug.Log(interactScript);
 
-                        if(interactScript) {
-                            int woodGained = interactScript.Interact("e");
+                        int woodGained = interactScript.Interact("e");
 
-                            Debug.Log($"Got {woodGained} wood!");
+                        Debug.Log($"Got {woodGained} wood!");
 
-                            PlayerData playerData = gameObject.GetComponent<PlayerData>();
-                            Debug.Log($"Player Data: {playerData}");
-                            playerData.GetWood(woodGained);
+                        PlayerData playerData = gameObject.GetComponent<PlayerData>();
+                        Debug.Log($"Player Data: {playerData}");
+                        playerData.GetWood(woodGained);
 
-                            Debug.Log($"Total wood gained so far: {playerData.GetWood()}");
+                        Debug.Log($"Total wood gained so far: {playerData.GetWood()}");
+                    }
+                }
+                else if(target.tag == "fire")
+                {
+                    if(hitData.distance < treeInteractionDistance) {
+                        Debug.Log("Interact with fire");
+                        PlayerData playerData = gameObject.GetComponent<PlayerData>();
+
+                        if(playerData.GetWood() > 0) {
+                            FeedFire fireScript = target.GetComponent<FeedFire>();
+                            playerData.GetWood(-1);
+                            fireScript.AddWood(1);
                         }
                     }
                 }

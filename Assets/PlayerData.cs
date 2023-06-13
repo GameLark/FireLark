@@ -22,7 +22,7 @@ public class PlayerData : MonoBehaviour
     // Getter and setter for collectedWood
     public int GetWood(int woodGot=0) {
         this.collectedWood += woodGot;
+        Debug.Log(this.collectedWood);
         return this.collectedWood;
     }
-
 }

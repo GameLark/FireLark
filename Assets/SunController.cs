@@ -21,12 +21,7 @@ public class SunController : MonoBehaviour
     }
 
     void UpdateSunLocation() {
-        this.gameObject.transform.RotateAround(Vector3.up, Vector3.back, times);
+        this.gameObject.transform.RotateAround(Vector3.zero, Vector3.back, times * 20);
     }
 
-    void ResetSunLocation() {
-        
-        this.gameObject.transform.position = new Vector3(0, 0, 0);
-    
-    }
 }

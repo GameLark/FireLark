@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TreeGrowth : MonoBehaviour
 {
+    public bool shouldGrow = false;
     public Mesh[] treeMeshes; 
     private Mesh currentTreeMesh;
     private int currentMeshIndex = 0;
@@ -29,7 +30,7 @@ public class TreeGrowth : MonoBehaviour
 
     IEnumerator ChangeMeshOverTime()
     {
-        while (true)
+        while (true && shouldGrow)
         {
             yield return new WaitForSeconds(timeBetweenTreeStates);
 

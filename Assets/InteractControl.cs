@@ -36,6 +36,7 @@ public class InteractControl : MonoBehaviour
             // e interaction
             if (Input.GetKeyDown("e")) {
                 Debug.Log("E pressed...");
+                Debug.Log($"Hit tag: {target.tag}");
                 if(target.tag == "tree") {
                     Debug.Log($"Distance to tree: {hitData.distance}");
 
@@ -71,6 +72,8 @@ public class InteractControl : MonoBehaviour
                         fixedJoint.enableCollision = false;
                         fixedJoint.anchor = transform.position;
                     }
+                } else if (target.tag == "ground") {
+                    // TODO: plant a tree 
                 }
             }
         } else if (currentlyOutlined != null) {

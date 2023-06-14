@@ -9,6 +9,12 @@ public class UITextScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //set it to be transparent
+        foreach (TMP_Text w in words)
+        {
+            
+            w.color = new Color(w.color.r, w.color.g, w.color.b, 0);
+        }
         StartCoroutine(RevealText());
     }
 

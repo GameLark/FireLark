@@ -5054,6 +5054,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLit: 0
   light: {fileID: 8977862047541688345}
+  thermalEnergy: 0
+  combustibleEnergy: 100000000
+  temperature: 293.15
+  specificHeatCapacity: 1000
+  heatingWhenLit: 1
+  specificThermalConductivity: 10
+  ignitionTemperature: 873.15
+  extinguishTemperature: 623.15
 --- !u!1 &6955365753091733274
 GameObject:
   m_ObjectHideFlags: 0

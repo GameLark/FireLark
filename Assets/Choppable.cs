@@ -15,14 +15,15 @@ public class Choppable : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     private void onTreeDestroy(){
-        Debug.Log("Tree Destroyed");
-        // spawn 3 wood on top of each other
+        // get size of the tree
+        int treeWoodCount = GetComponent<TreeGrowth>().GetTreeValue();
+
         Vector3 spawnPosition = transform.position; // spawn position is at the center of the current position
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < treeWoodCount; i++)
         {
             Instantiate(woodPrefab, spawnPosition, Quaternion.identity);
             spawnPosition += Vector3.up; // move the spawn position up by one unit for each iteration

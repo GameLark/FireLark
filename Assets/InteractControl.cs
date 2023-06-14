@@ -38,20 +38,12 @@ public class InteractControl : MonoBehaviour
                 Debug.Log("E pressed...");
                 if(target.tag == "tree") {
                     Debug.Log($"Distance to tree: {hitData.distance}");
-                    // call tree script 'interact' method
-                    Interaction interactScript = target.GetComponent<Interaction>();
-                    Debug.Log("Interact script");
-                    Debug.Log(interactScript);
 
-                    int woodGained = interactScript.Interact("e");
-
-                    Debug.Log($"Got {woodGained} wood!");
-
-                    PlayerData playerData = gameObject.GetComponent<PlayerData>();
-                    Debug.Log($"Player Data: {playerData}");
-                    playerData.GetWood(woodGained);
-
-                    Debug.Log($"Total wood gained so far: {playerData.GetWood()}");
+                    Choppable treeChoppingScript = target.GetComponent<Choppable>();
+                    if (treeChoppingScript != null) {
+                        treeChoppingScript.Chop();
+                    }
+                  
                 }
                 else if(target.tag == "fire")
                 {

@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 564439665486975967}
   - component: {fileID: 6852746871227487799}
   - component: {fileID: 1934930444664809496}
+  - component: {fileID: 7771340746066608165}
+  - component: {fileID: 9172281967551752645}
   m_Layer: 0
   m_Name: Log
   m_TagString: log
@@ -45,7 +47,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5462197046241347792}
-  m_Mesh: {fileID: 6823040044805098993, guid: 5201bb483b2fb2946848a4d72358817e, type: 3}
+  m_Mesh: {fileID: 1432208307803532250, guid: dc6a3a3fd44e3da47a65f2d298c165db, type: 3}
 --- !u!23 &7237853142525725736
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -109,7 +111,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 6823040044805098993, guid: 5201bb483b2fb2946848a4d72358817e, type: 3}
+  m_Mesh: {fileID: 1432208307803532250, guid: dc6a3a3fd44e3da47a65f2d298c165db, type: 3}
 --- !u!54 &4319455492584292731
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5015,6 +5017,43 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &7771340746066608165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5462197046241347792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7e78082b78fafd458f7755f748a1cf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLit: 0
+  light: {fileID: 8977862047541688345}
+--- !u!136 &9172281967551752645
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5462197046241347792}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.003
+  m_Height: 0.025
+  m_Direction: 1
+  m_Center: {x: 0.00008348579, y: 0.00053625484, z: -0.00006376981}
 --- !u!1 &6955365753091733274
 GameObject:
   m_ObjectHideFlags: 0
@@ -5046,7 +5085,7 @@ Transform:
   - {fileID: 2483918565129420414}
   - {fileID: 1427672293880622016}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8980582399598451055
 GameObject:
@@ -5157,7 +5196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leader: {fileID: 2483918565129420414}
-  offset: {x: 0, y: 0.1, z: 0}
+  offset: {x: 0, y: 0.5, z: 0}
 --- !u!114 &7672712184730441519
 MonoBehaviour:
   m_ObjectHideFlags: 0

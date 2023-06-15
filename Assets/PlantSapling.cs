@@ -29,9 +29,7 @@ public class PlantSapling : MonoBehaviour, IPickupable
        // instanciate a new tree prefab where the sapling is, destroy the sapling
          if (collision.gameObject.tag == "ground" && isPickedUp) {
               // instanciate a new tree prefab where the sapling is, destroy the sapling
-              GameObject newTree = Instantiate(treePrefab);
-              newTree.transform.position = transform.position;
-              newTree.transform.rotation = new Quaternion(0, 0, 0, 0);
+              GameObject newTree = Instantiate(treePrefab, transform.position, Quaternion.identity);
 
               newTree.GetComponent<TreeGrowth>().shouldGrow = true;
               Destroy(gameObject);

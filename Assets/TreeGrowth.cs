@@ -5,17 +5,29 @@ using UnityEngine;
 public class TreeGrowth : MonoBehaviour
 {
     public bool shouldGrow = false;
+    public int maxTreeSize;
     public Mesh[] treeMeshes; 
     private Mesh currentTreeMesh;
     private int currentMeshIndex = 0;
     public float timeBetweenTreeStates = 1f;
 
-    void Start()
+    void Awake()
     {
         // start with a random mesh
         currentMeshIndex = Random.Range(0, treeMeshes.Length); 
+
+        Debug.Log("Starting with mesh " + currentMeshIndex);
         SetTreeMesh(treeMeshes[currentMeshIndex]);
+
+        maxTreeSize = Random.Range(currentMeshIndex, maxTreeSize);
+
         StartCoroutine(ChangeMeshOverTime());
+    }
+
+    public void SetTreeSize(int size) {
+        Mesh mesh = treeMeshes[size - 1];
+        Debug.Log("Setting tree size to " + size);
+        SetTreeMesh(mesh);
     }
 
     void SetTreeMesh(Mesh mesh) {

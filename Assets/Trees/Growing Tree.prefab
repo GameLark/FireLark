@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 344624560378154560}
   - component: {fileID: 3503019718070858552}
   - component: {fileID: 858414278768175084}
+  - component: {fileID: -2346073772534314542}
   m_Layer: 0
   m_Name: Growing Tree
   m_TagString: tree
@@ -160,3 +161,15 @@ MonoBehaviour:
   - {fileID: 4300000, guid: 0ddb82da3485fac4dbfe187acb70a610, type: 3}
   - {fileID: 4300000, guid: f6c597498257ae843adeb6a76dd3013e, type: 3}
   timeBetweenTreeStates: 3
+--- !u!114 &-2346073772534314542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2556259462429511979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb2cba2cb6448ff46ac376b4101b8d29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

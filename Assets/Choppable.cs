@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Choppable : MonoBehaviour
+public class Choppable : MonoBehaviour, IInteractable
 {
 
     public GameObject woodPrefab;
@@ -13,11 +13,10 @@ public class Choppable : MonoBehaviour
     public float chopDamage = 1f;
     private float currentHealth = 5f; // TODO: make this based off of the current tree type
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void Interact(RaycastHit hitData)
     {
-
+        Debug.Log("tree interact");
+        Chop();
     }
 
     private void onTreeDestroy(){

@@ -20,19 +20,12 @@ public class InteractControl : MonoBehaviour
 
             // e interaction
             if (Input.GetKeyDown("e")) {
-                Debug.Log(target.name);
-
                 // Get the script that implements IInteractable, and call Interact()
-                var tempMonoArray = hitData.transform.gameObject.GetComponents<MonoBehaviour>();
+                var interactScripts = hitData.transform.gameObject.GetComponents<IInteractable>();
  
-                foreach (var monoBehaviour in tempMonoArray)
+                foreach (var script in interactScripts)
                 {
-        
-                    if (monoBehaviour is IInteractable tempInteractable)
-                    {
-                        tempInteractable.Interact(hitData);
-                        break;
-                    }
+                    script.Interact(hitData);
                 }  
             }
         } 

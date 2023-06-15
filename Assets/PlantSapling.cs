@@ -33,11 +33,10 @@ public class PlantSapling : MonoBehaviour, IPickupable
             GameObject newTree = Instantiate(treePrefab, transform.position, Quaternion.identity);
             var treeGrowth = newTree.GetComponent<TreeGrowth>();
             treeGrowth.SetTreeSize(1);
-            treeGrowth.shouldGrow = true;
+            treeGrowth.StartTreeGrowing();
             // scale the tree up to its normal size over time
             var currentScale = gameObject.transform.localScale;
             newTree.GetComponent<ScaleUp>().StartScaleUp(currentScale, new Vector3(1f, 1f, 1f), 0.5f);
-           
             Destroy(gameObject);
          }
     }

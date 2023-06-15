@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldGrow: 0
+  maxTreeSize: 0
   treeMeshes:
   - {fileID: 4300000, guid: cb132eeaea305bc478721cc9b5cb57f8, type: 3}
   - {fileID: 4300000, guid: e063977d54ec61849aacc1b8e9eafc6f, type: 3}

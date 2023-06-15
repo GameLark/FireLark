@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 // --------------------------------------------------------------------------------
-// FYI: This script needs to be on the same GameObject that a Rigidbody is on
+// FYI: This script needs to be on the same GameObject that a Rigidbody, and MeshCollider are on
 // --------------------------------------------------------------------------------
 public class Pickupable : MonoBehaviour, IInteractable
 {
@@ -30,7 +30,13 @@ public class Pickupable : MonoBehaviour, IInteractable
             fixedJoint.anchor = transform.position;
 
             // disable collisions on the target
-            targetRigidBody.GetComponent<MeshCollider>().isTrigger = true;
+            var meshCollider = targetRigidBody.GetComponent<MeshCollider>();
+
+            Debug.Log(meshCollider);
+
+            meshCollider.isTrigger = true;
+
+
 
             // call the OnPickup function on the target if the script is not null
             IPickupable script = targetRigidBody.GetComponent<IPickupable>();

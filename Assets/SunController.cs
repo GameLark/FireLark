@@ -5,7 +5,7 @@ using UnityEngine;
 public class SunController : MonoBehaviour
 {
 
-    private float times;
+    public float speed = 1;
 
     
     // Start is called before the first frame update
@@ -16,12 +16,11 @@ public class SunController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.times = Time.deltaTime * 1;
         UpdateSunLocation(); 
     }
 
     void UpdateSunLocation() {
-        this.gameObject.transform.RotateAround(Vector3.zero, Vector3.back, times * 20);
+        this.gameObject.transform.RotateAround(Vector3.zero, Vector3.back, speed * Time.deltaTime);
     }
 
 }

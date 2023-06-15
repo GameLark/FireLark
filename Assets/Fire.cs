@@ -6,23 +6,32 @@ public class Fire : MonoBehaviour
 {
     public bool isLit;
     public new Light light;
-
     private new ParticleSystem particleSystem;
+    private MeshRenderer meshRenderer;
 
     private HashSet<Fire> touchingCombustibles = new HashSet<Fire>();
 
+    [ShowOnly]
+    public float lightIntensity;
+    [ShowOnly]
+    public Color lightColor;
+
     // Fire parameters
     // variables
-    public float thermalEnergy;  // J
-    public float combustibleEnergy = 100_000_000;  // J 
+    private float thermalEnergy;  // J
+    [ShowOnly]
+    public float combustibleEnergy = 750_000;  // J 
     public float temperature = 293.15f;  // K
 
     // constants    
-    public float specificHeatCapacity = 1_000;  // J/K
-    public float heatingWhenLit = 1;  // W/K
-    public float specificThermalConductivity = 1;  // W/K
-    public float ignitionTemperature = 873.15f;  // K
-    public float extinguishTemperature = 623.15f;  // K
+    private float specificHeatCapacity = 1_000;  // J/K
+    private float heatingWhenLit = 9;  // W/K
+    private float specificThermalConductivity = 50;  // W/K
+    private float ignitionTemperature = 773.15f;  // K
+    private float extinguishTemperature = 523.15f;  // K
+    private float maximumTemperature = 1273.15f;
+    private float maximumThermalEnergy;
+    public float temperatureToLight = 1.911e-4f;
 
     // // Unused variables
 
@@ -78,6 +87,7 @@ public class Fire : MonoBehaviour
     {
 
         particleSystem = GetComponent<ParticleSystem>();
+        meshRenderer = GetComponent<MeshRenderer>();
 
         // // calculate volume and surface area
         // Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
@@ -85,13 +95,10 @@ public class Fire : MonoBehaviour
         // Debug.Log($"Volume: {volume}");
         // combustibleVolume = volume; 
         // // TODO: calculate surface area from mesh
-        if (isLit) {
-            temperature = ignitionTemperature;
-        }
-
 
         // set up initial thermal energy
         thermalEnergy = temperature * specificHeatCapacity;
+        maximumThermalEnergy = maximumTemperature * specificHeatCapacity;
     }
 
     // Update is called once per frame
@@ -126,7 +133,7 @@ public class Fire : MonoBehaviour
             conductionEnergy += specificThermalConductivity * (touchingCombustible.temperature - temperature) * Time.deltaTime;
         }
         thermalEnergy += conductionEnergy + burnEnergy;
-
+        thermalEnergy = Mathf.Min(thermalEnergy, maximumThermalEnergy); // TODO: revisit as it's just a hacky way to cap temperature
     }
 
     void LateUpdate()
@@ -154,6 +161,13 @@ public class Fire : MonoBehaviour
     
     void UpdateVisuals() {
         // // update light
+        light.color = GetRGBFromTemperature(500 + temperature);
+        lightColor = light.color;
+        light.intensity = isLit ? temperature * temperatureToLight : 0; // if not lit then could be light when hot
+        lightIntensity = light.intensity;
+        meshRenderer.material.EnableKeyword("_EMISSION");
+        meshRenderer.material.SetColor("_EmissionColor", light.color * light.intensity);
+        // new Color(light.color.r, light.color.g, light.color.b, 1)
         // // consider soot
         // // L_light = k_light * (energyCombusted)
         // // f_light ~ T
@@ -173,4 +187,75 @@ public class Fire : MonoBehaviour
         }
     }
 
+    public static Color GetRGBFromTemperature(double tmpKelvin)
+    {
+        double tmpCalc;
+        float r,g,b;
+ 
+        // Temperature must fall between 1000 and 40000 degrees
+        if (tmpKelvin < 1000) tmpKelvin = 1000;
+        if (tmpKelvin > 40000) tmpKelvin = 40000;
+ 
+        // All calculations require tmpKelvin \ 100, so only do the conversion once
+        tmpKelvin /= 100;
+ 
+        // Calculate each color in turn
+ 
+        // First: red
+        if (tmpKelvin <= 66)
+        {
+            r = 255;
+        }
+        else
+        {
+            // Note: the R-squared value for this approximation is .988
+            tmpCalc = tmpKelvin - 60;
+            tmpCalc = 329.698727446 * Mathf.Pow((float)tmpCalc, (float)-0.1332047592);
+            r = (int)tmpCalc;
+            if (r < 0) r = 0;
+            if (r > 255) r = 255;
+        }
+ 
+        // Second: green
+        if (tmpKelvin <= 66)
+        {
+            // Note: the R-squared value for this approximation is .996
+            tmpCalc = tmpKelvin;
+            tmpCalc = 99.4708025861 * Mathf.Log((float)tmpCalc) - 161.1195681661;
+            g = (int)tmpCalc;
+            if (g < 0) g = 0;
+            if (g > 255) g = 255;
+        }
+        else
+        {
+            // Note: the R-squared value for this approximation is .987
+            tmpCalc = tmpKelvin - 60;
+            tmpCalc = 288.1221695283 * Mathf.Pow((float)tmpCalc, (float)-0.0755148492);
+            g = (int)tmpCalc;
+            if (g < 0) g = 0;
+            if (g > 255) g = 255;
+        }
+ 
+        // Third: blue
+        if (tmpKelvin >= 66)
+        {
+            b = 255;
+        }
+        else if (tmpKelvin <= 19)
+        {
+            b = 0;
+        }
+        else
+        {
+            // Note: the R-squared value for this approximation is .998
+            tmpCalc = tmpKelvin - 10;
+            tmpCalc = 138.5177312231 * Mathf.Log((float)tmpCalc) - 305.0447927307;
+ 
+            b = (int)tmpCalc;
+            if (b < 0) b = 0;
+            if (b > 255) b = 255;
+        }
+
+        return new Color(r/255f, g/255f, b/255f, 1);
+    }
 }

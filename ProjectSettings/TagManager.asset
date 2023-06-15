@@ -9,6 +9,7 @@ TagManager:
   - fire
   - log
   - canvas
+  - ground
   layers:
   - Default
   - TransparentFX

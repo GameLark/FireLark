@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1690878477625784718}
   - component: {fileID: 1753733044425940477}
   - component: {fileID: -1317920000691001292}
+  - component: {fileID: -2505620388314486854}
+  - component: {fileID: 4251366474936091839}
   m_Layer: 0
   m_Name: Sapling
   m_TagString: tree
@@ -134,3 +136,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &-2505620388314486854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2556259462429511979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa5baa12ef5f0e6409271676c49ec319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4251366474936091839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2556259462429511979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7206e2bf00dab8b4fae418d2c0836c2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treePrefab: {fileID: 2556259462429511979, guid: b573e95fa623c6f43b988d22460de0a6, type: 3}
+  isPickedUp: 0

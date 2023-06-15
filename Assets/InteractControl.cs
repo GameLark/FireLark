@@ -17,8 +17,11 @@ public class InteractControl : MonoBehaviour
         if (Physics.Raycast(ray, out hitData) && hitData.distance < treeInteractionDistance) {
             GameObject target = hitData.transform.gameObject;
 
+
             // e interaction
             if (Input.GetKeyDown("e")) {
+                Debug.Log(target.name);
+
                 // Get the script that implements IInteractable, and call Interact()
                 var tempMonoArray = hitData.transform.gameObject.GetComponents<MonoBehaviour>();
  

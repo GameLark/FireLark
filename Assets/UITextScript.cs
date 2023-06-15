@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class UITextScript : MonoBehaviour
+public class StoryStart : MonoBehaviour
 {
+    public AudioSource lightning;
     public TMP_Text[] words;
     public GameObject startMusic;
     private AudioSource startMusicSource;
@@ -29,6 +30,7 @@ public class UITextScript : MonoBehaviour
         HideText();
         // pause...
         yield return new WaitForSeconds(2f);
+        lightning.Play();
         gameObject.SetActive(false);
     }
 

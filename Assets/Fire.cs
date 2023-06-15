@@ -6,7 +6,8 @@ public class Fire : MonoBehaviour
 {
     public bool isLit;
     public new Light light;
-    private new ParticleSystem particleSystem;
+    private ParticleSystem fireParticles;
+    private ParticleSystem smokeParticles;
     private MeshRenderer meshRenderer;
 
     private HashSet<Fire> touchingCombustibles = new HashSet<Fire>();
@@ -86,7 +87,8 @@ public class Fire : MonoBehaviour
     void Start()
     {
 
-        particleSystem = GetComponent<ParticleSystem>();
+        fireParticles = transform.Find("Fire").GetComponent<ParticleSystem>();
+        smokeParticles = transform.Find("Smoke").GetComponent<ParticleSystem>();
         meshRenderer = GetComponent<MeshRenderer>();
 
         // // calculate volume and surface area
@@ -104,16 +106,8 @@ public class Fire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var emission = particleSystem.emission;
         UpdateFire();
 
-        if (isLit) {
-            emission.enabled = true;
-            light.enabled = true;
-        } else {
-            emission.enabled = false;
-            light.enabled = false;
-        }
     }
  
     void UpdateFire()
@@ -161,16 +155,21 @@ public class Fire : MonoBehaviour
     
     void UpdateVisuals() {
         // // update light
-        light.color = GetRGBFromTemperature(500 + temperature);
+        light.color = GetRGBFromTemperature(temperature*1.5);
         lightColor = light.color;
         light.intensity = isLit ? temperature * temperatureToLight : 0; // if not lit then could be light when hot
         lightIntensity = light.intensity;
         meshRenderer.material.EnableKeyword("_EMISSION");
-        meshRenderer.material.SetColor("_EmissionColor", light.color * light.intensity);
-        // new Color(light.color.r, light.color.g, light.color.b, 1)
-        // // consider soot
-        // // L_light = k_light * (energyCombusted)
-        // // f_light ~ T
+        meshRenderer.material.SetColor("_EmissionColor", light.color * light.intensity * 1.1f);
+
+        var fireEmission = fireParticles.emission;
+        var smokeEmission = smokeParticles.emission;
+        if (isLit) {
+            fireEmission.enabled = true;
+        } else {
+            fireEmission.enabled = false;
+        }
+        smokeEmission.enabled = temperature > extinguishTemperature;
     }
 
     void OnCollisionEnter(Collision collision) {

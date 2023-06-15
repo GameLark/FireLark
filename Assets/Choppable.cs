@@ -33,8 +33,8 @@ public class Choppable : MonoBehaviour, IInteractable
         // pick a random point within the tree's mesh to spawn the sapling
         Mesh treeMesh = GetComponent<MeshFilter>().mesh;
 
-        // spawn 0-2 saplings
-        int saplingCount = Random.Range(0, 3);
+        // spawn saplings
+        int saplingCount = Random.Range(1, 3);
         for (int i = 0; i < saplingCount; i++)
         {
             Vector3 randomPoint = treeMesh.vertices[Random.Range(0, treeMesh.vertices.Length)];

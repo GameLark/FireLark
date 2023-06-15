@@ -6,7 +6,7 @@ public class PlantSapling : MonoBehaviour, IPickupable
 {
 
     public GameObject treePrefab;
-    public bool isPickedUp = false;
+    private bool isPickedUp = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +27,7 @@ public class PlantSapling : MonoBehaviour, IPickupable
      void OnCollisionEnter(Collision collision)
     {
        // instanciate a new tree prefab where the sapling is, destroy the sapling
-         if (collision.gameObject.tag == "ground" && isPickedUp) {
+         if (collision.gameObject.tag == "ground" && this.isPickedUp) {
               // instanciate a new tree prefab where the sapling is, destroy the sapling
               GameObject newTree = Instantiate(treePrefab, transform.position, Quaternion.identity);
 

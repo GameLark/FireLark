@@ -15,8 +15,6 @@ public class Pickupable : MonoBehaviour, IInteractable
         // get the target rigidbody
         Rigidbody targetRigidBody = hitData.transform.gameObject.GetComponent<Rigidbody>();
 
-        Debug.Log(targetRigidBody);
-
         // if the camera has a fixed joint, destroy it
         if (fixedJoint != null) {
             Destroy(fixedJoint);
@@ -32,11 +30,7 @@ public class Pickupable : MonoBehaviour, IInteractable
             // disable collisions on the target
             var meshCollider = targetRigidBody.GetComponent<MeshCollider>();
 
-            Debug.Log(meshCollider);
-
             meshCollider.isTrigger = true;
-
-
 
             // call the OnPickup function on the target if the script is not null
             IPickupable script = targetRigidBody.GetComponent<IPickupable>();

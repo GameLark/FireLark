@@ -5035,8 +5035,8 @@ MonoBehaviour:
   combustibleEnergy: 100000000
   temperature: 293.15
   specificHeatCapacity: 1000
-  heatingWhenLit: 1
-  specificThermalConductivity: 10
+  heatingWhenLit: 5
+  specificThermalConductivity: 15
   ignitionTemperature: 873.15
   extinguishTemperature: 623.15
 --- !u!114 &2253292318949304219

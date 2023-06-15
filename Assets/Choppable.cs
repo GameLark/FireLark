@@ -6,6 +6,8 @@ public class Choppable : MonoBehaviour
 {
 
     public GameObject woodPrefab;
+    public GameObject saplingPrefab;
+
     
     public float chopTime = 2f;
     public float chopDamage = 1f;
@@ -28,6 +30,17 @@ public class Choppable : MonoBehaviour
             Instantiate(woodPrefab, spawnPosition, Quaternion.identity);
             spawnPosition += Vector3.up; // move the spawn position up by one unit for each iteration
         }
+
+        // pick a random point within the tree's mesh to spawn the sapling
+        Mesh treeMesh = GetComponent<MeshFilter>().mesh;
+
+        // spawn 0-2 saplings
+        int saplingCount = Random.Range(0, 3);
+        for (int i = 0; i < saplingCount; i++)
+        {
+            Vector3 randomPoint = treeMesh.vertices[Random.Range(0, treeMesh.vertices.Length)];
+            Instantiate(saplingPrefab, transform.position + randomPoint, Quaternion.identity);
+        }
     }
 
     
@@ -43,6 +56,8 @@ public class Choppable : MonoBehaviour
 
         // apply damage to the tree
         currentHealth -= chopDamage;
+
+        Debug.Log(currentHealth);
         if (currentHealth <= 0)
         {
             onTreeDestroy();
@@ -50,7 +65,6 @@ public class Choppable : MonoBehaviour
             // TODO: play a sound, drop wood, etc.
             // destroy the tree
             Destroy(gameObject);
-
         }
     }
 

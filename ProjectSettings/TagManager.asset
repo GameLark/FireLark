@@ -10,6 +10,7 @@ TagManager:
   - log
   - canvas
   - ground
+  - lightning
   layers:
   - Default
   - TransparentFX

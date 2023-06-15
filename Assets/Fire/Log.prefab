@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6852746871227487799}
   - component: {fileID: 1934930444664809496}
   - component: {fileID: 2291064238719508832}
-  - component: {fileID: 2253292318949304219}
+  - component: {fileID: 6585418785544086212}
   m_Layer: 0
   m_Name: Log
   m_TagString: log
@@ -5012,7 +5012,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 3.8e-44, z: 2.85e-42, w: 0}
+  m_BoundingSphereOverride: {x: 8.09e-43, y: 1.508053e-31, z: 8.09e-43, w: 1e-45}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -5031,15 +5031,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLit: 0
   light: {fileID: 8977862047541688345}
-  thermalEnergy: 0
-  combustibleEnergy: 100000000
+  lightIntensity: 0
+  lightColor: {r: 0, g: 0, b: 0, a: 0}
+  combustibleEnergy: 750000
   temperature: 293.15
-  specificHeatCapacity: 1000
-  heatingWhenLit: 5
-  specificThermalConductivity: 15
-  ignitionTemperature: 873.15
-  extinguishTemperature: 623.15
---- !u!114 &2253292318949304219
+  temperatureToLight: 0.0001911
+--- !u!114 &6585418785544086212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5201,7 +5198,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8980582399598451055}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45c72b7b7a3a6124381657da45d7a786, type: 3}
   m_Name: 

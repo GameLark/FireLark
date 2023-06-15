@@ -20,7 +20,17 @@ public class SunController : MonoBehaviour
     }
 
     void UpdateSunLocation() {
-        this.gameObject.transform.RotateAround(Vector3.zero, Vector3.back, speed * Time.deltaTime);
+        gameObject.transform.RotateAround(Vector3.zero, Vector3.back, speed * Time.deltaTime);
     }
 
+    public void SetTime(float time)
+    {
+
+        Debug.Log("Setting time to " + time);
+        //reset back to 0
+        gameObject.transform.localPosition = new Vector3(0, 0, 0);
+
+        //set time
+        gameObject.transform.RotateAround(Vector3.zero, Vector3.back, time * Time.deltaTime);
+    }
 }

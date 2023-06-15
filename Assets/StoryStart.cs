@@ -2,23 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
 public class StoryStart : MonoBehaviour
 {
     public AudioSource lightning;
     public TMP_Text[] words;
     public GameObject startMusic;
     private AudioSource startMusicSource;
+    private GameObject player;
+    private GameObject playerCamera;
     // Start is called before the first frame update
     void Start()
     {
         startMusicSource = startMusic.GetComponent<AudioSource>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        //disable player
+        player.GetComponent<FirstPersonMovement>().LockMovement();
+        playerCamera.GetComponent<FirstPersonLook>().LockCamera();
+
         //set it to be transparent
         foreach (TMP_Text w in words)
         {
             w.color = new Color(w.color.r, w.color.g, w.color.b, 0);
         }
         StartCoroutine(RevealText());
+        
     }
     IEnumerator RevealText() {
         for (int word = 0; word < words.Length; word++) 
@@ -30,8 +38,14 @@ public class StoryStart : MonoBehaviour
         HideText();
         // pause...
         yield return new WaitForSeconds(2f);
+        GameObject.FindGameObjectWithTag("Sun").GetComponent<SunController>().SetTime(12);
         lightning.Play();
+        //disable black screen
         gameObject.SetActive(false);
+        // yield return new WaitForSeconds(2f);
+        //re-enable player
+        player.GetComponent<FirstPersonMovement>().UnlockMovement();
+        playerCamera.GetComponent<FirstPersonLook>().UnlockCamera();
     }
 
     void HideText( ) {

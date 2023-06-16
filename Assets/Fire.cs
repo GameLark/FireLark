@@ -22,13 +22,15 @@ public class Fire : MonoBehaviour
     // variables
     private float thermalEnergy;  // J
     [ShowOnly]
-    public float combustibleEnergy = 100_000;  // J 
+    public float combustibleEnergy = 750_000;  // J 
     public float temperature = 293.15f;  // K
+    private float airTemperature = 293.15f; // K - TODO: have fire heat air
 
     // constants    
     private float specificHeatCapacity = 1_000;  // J/K
     private float heatingWhenLit = 9;  // W/K
-    private float specificThermalConductivity = 50;  // W/K
+    private float specificThermalConductivityToAir = 5;  // W/K
+    private float specificThermalConductivityToWood = 50;  // W/K
     private float ignitionTemperature = 773.15f;  // K
     private float extinguishTemperature = 523.15f;  // K
     private float maximumTemperature = 1273.15f;
@@ -122,20 +124,23 @@ public class Fire : MonoBehaviour
 
         // 1. heat self due to burning
         var burnEnergy = 0f;
+        var coolingEnergy = 0f;
         if (isLit)
         {
             burnEnergy = Mathf.Min(heatingWhenLit * temperature * Time.deltaTime, combustibleEnergy);
+            // 2. burn some internal fuel - reduce energy here - extinguish if no energy left
+            combustibleEnergy -= burnEnergy;}
+        else {
+            coolingEnergy = specificThermalConductivityToAir * (airTemperature - temperature);
         }
-        // 2. burn some internal fuel - reduce energy here - extinguish if no energy left
-        combustibleEnergy -= burnEnergy;
 
         // 3. heat/cool self due to touching other objects
         var conductionEnergy = 0f;
         foreach (var touchingCombustible in touchingCombustibles)
         {
-            conductionEnergy += specificThermalConductivity * (touchingCombustible.temperature - temperature) * Time.deltaTime;
+            conductionEnergy +=specificThermalConductivityToWood * (touchingCombustible.temperature - temperature) * Time.deltaTime;
         }
-        thermalEnergy += conductionEnergy + burnEnergy;
+        thermalEnergy += conductionEnergy + burnEnergy + coolingEnergy;
         thermalEnergy = Mathf.Min(thermalEnergy, maximumThermalEnergy); // TODO: revisit as it's just a hacky way to cap temperature
     }
 
@@ -192,6 +197,7 @@ public class Fire : MonoBehaviour
     void OnCooled()
     {
         // set colour to grey, scale down to very small and then remove game object
+
     }
 
     void UpdateVisuals()

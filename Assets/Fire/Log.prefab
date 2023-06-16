@@ -9903,7 +9903,7 @@ MonoBehaviour:
   light: {fileID: 8977862047541688345}
   lightIntensity: 0
   lightColor: {r: 0, g: 0, b: 0, a: 0}
-  combustibleEnergy: 100000
+  combustibleEnergy: 750000
   temperature: 293.15
 --- !u!114 &6585418785544086212
 MonoBehaviour:

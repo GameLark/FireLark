@@ -9702,6 +9702,7 @@ GameObject:
   - component: {fileID: 1934930444664809496}
   - component: {fileID: 2291064238719508832}
   - component: {fileID: 6585418785544086212}
+  - component: {fileID: 3751332011115291332}
   m_Layer: 0
   m_Name: Log
   m_TagString: log
@@ -9902,7 +9903,7 @@ MonoBehaviour:
   light: {fileID: 8977862047541688345}
   lightIntensity: 0
   lightColor: {r: 0, g: 0, b: 0, a: 0}
-  combustibleEnergy: 750000
+  combustibleEnergy: 100000
   temperature: 293.15
 --- !u!114 &6585418785544086212
 MonoBehaviour:
@@ -9914,6 +9915,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa5baa12ef5f0e6409271676c49ec319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3751332011115291332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5462197046241347792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb2cba2cb6448ff46ac376b4101b8d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6955365753091733274

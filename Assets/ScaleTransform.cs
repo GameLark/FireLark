@@ -1,26 +1,30 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ScaleTransform : MonoBehaviour
 {
 
-    public void StartScaleUp(Vector3 startScale, Vector3 targetScale, float duration)
+    public void StartScale(Vector3 startScale, Vector3 targetScale, float duration, Action callback = null)
     {
-        StartCoroutine(ScaleUpOverTime(startScale, targetScale, duration));
+        Debug.Log("Starting scale");
+        StartCoroutine(ScaleOverTime(startScale, targetScale, duration, callback));
     }
 
-    IEnumerator ScaleUpOverTime(Vector3 startScale, Vector3 targetScale, float duration)
+    private IEnumerator ScaleOverTime(Vector3 startScale, Vector3 targetScale, float duration, Action callback)
     {
         float elapsedTime = 0.0f;
 
-        while (elapsedTime < duration)
+        while (elapsedTime <= duration)
         {
+            var deltaTime = Time.deltaTime;
             gameObject.transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / duration);
-            elapsedTime += Time.deltaTime * Time.timeScale; // multiply by Time.timeScale
+            Debug.Log("Scale: " + gameObject.transform.localScale + "deltaTime: " + deltaTime + "elapsedTime: " + elapsedTime + "duration: " + duration);
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        gameObject.transform.localScale = targetScale;
+        if (callback != null)
+            callback();
     }
 }

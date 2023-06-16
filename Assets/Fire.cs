@@ -5,6 +5,7 @@ using UnityEngine;
 public class Fire : MonoBehaviour
 {
     private bool isLit;
+    private bool isCharcoal = false;
     public new Light light;
     private ParticleSystem fireParticles;
     private ParticleSystem smokeParticles;
@@ -21,7 +22,7 @@ public class Fire : MonoBehaviour
     // variables
     private float thermalEnergy;  // J
     [ShowOnly]
-    public float combustibleEnergy = 750_000;  // J 
+    public float combustibleEnergy = 100_000;  // J 
     public float temperature = 293.15f;  // K
 
     // constants    
@@ -39,7 +40,7 @@ public class Fire : MonoBehaviour
     // // Object constants
     // private float volume; // m3
     // private float surfaceArea;  // m2
-    
+
     // // Material Constants
     // private float spontaneousIgnitionTemperature = 873.15f; // K
     // private float pilotedIgnitionTemperature = 623.15f; // K
@@ -102,7 +103,8 @@ public class Fire : MonoBehaviour
         Init(temperature);
     }
 
-    public void Init(float temperature) {
+    public void Init(float temperature)
+    {
         // set up initial thermal energy
         this.temperature = temperature;
         thermalEnergy = temperature * specificHeatCapacity;
@@ -114,21 +116,23 @@ public class Fire : MonoBehaviour
         UpdateFire();
 
     }
- 
+
     void UpdateFire()
     {
 
         // 1. heat self due to burning
         var burnEnergy = 0f;
-        if (isLit) {
+        if (isLit)
+        {
             burnEnergy = Mathf.Min(heatingWhenLit * temperature * Time.deltaTime, combustibleEnergy);
         }
         // 2. burn some internal fuel - reduce energy here - extinguish if no energy left
         combustibleEnergy -= burnEnergy;
- 
+
         // 3. heat/cool self due to touching other objects
         var conductionEnergy = 0f;
-        foreach (var touchingCombustible in touchingCombustibles) {
+        foreach (var touchingCombustible in touchingCombustibles)
+        {
             conductionEnergy += specificThermalConductivity * (touchingCombustible.temperature - temperature) * Time.deltaTime;
         }
         thermalEnergy += conductionEnergy + burnEnergy;
@@ -142,51 +146,99 @@ public class Fire : MonoBehaviour
         UpdateVisuals();
     }
 
-    void UpdateTemperature(){
+    void UpdateTemperature()
+    {
         temperature = thermalEnergy / specificHeatCapacity;
     }
 
-    void UpdateIsLit() {
-        if (combustibleEnergy <= 0) {
+    void UpdateIsLit()
+    {
+        if (combustibleEnergy <= 0)
+        {
             isLit = false;
+
+            if (!isCharcoal)
+            {
+                isCharcoal = true;
+                OnCombustibleEnergyGone();
+            }
         }
-        else if (temperature >= ignitionTemperature) {
+        else if (temperature >= ignitionTemperature)
+        {
             isLit = true;
         }
-        else if (temperature <= extinguishTemperature) {
+        else if (temperature <= extinguishTemperature)
+        {
             isLit = false;
         }
     }
-    
-    void UpdateVisuals() {
+
+    void OnIgnition()
+    {
+        // enable point light, change particles?
+    }
+
+    void OnCombustibleEnergyGone()
+    {
+        // scale down a little, lower emission intensity, set to black
+        var scaleScript = GetComponent<ScaleTransform>();
+        var scale = transform.localScale;
+        var duration = 2.5f;
+        scaleScript.StartScale(transform.localScale, new Vector3(scale[0] * 0.5f, scale[1] * 0.9f, scale[2] * 0.5f), duration);
+        meshRenderer.material.color = Color.black;
+        meshRenderer.material.SetColor("_EmissionColor", Color.black);
+    }
+
+    void OnCooled()
+    {
+        // set colour to grey, scale down to very small and then remove game object
+    }
+
+    void UpdateVisuals()
+    {
         // // update light
         lightIntensity = temperature * emissivity;
-        lightColor = GetRGBFromTemperature((temperature - extinguishTemperature)*3);
+        lightColor = GetRGBFromTemperature((temperature - extinguishTemperature) * 3);
         light.color = lightColor;
         light.intensity = isLit ? lightIntensity : 0;
         var minLightIntensity = extinguishTemperature * emissivity;
-        meshRenderer.material.SetColor("_EmissionColor", light.color * Mathf.Max(lightIntensity - minLightIntensity, 0) * 10f);
+
+        if (!isCharcoal)
+        {
+            meshRenderer.material.SetColor("_EmissionColor", light.color * Mathf.Max(lightIntensity - minLightIntensity, 0) * 10f);
+        }
+        else
+        {
+            meshRenderer.material.SetColor("_EmissionColor", light.color * 0.1f);
+        }
 
         var fireEmission = fireParticles.emission;
         var smokeEmission = smokeParticles.emission;
-        if (isLit) {
+        if (isLit)
+        {
             fireEmission.enabled = true;
-        } else {
+        }
+        else
+        {
             fireEmission.enabled = false;
         }
         smokeEmission.enabled = temperature > extinguishTemperature;
     }
 
-    void OnCollisionEnter(Collision collision) {
+    void OnCollisionEnter(Collision collision)
+    {
         var touchingCombustible = collision.collider.GetComponent<Fire>();
-        if (touchingCombustible != null) {
+        if (touchingCombustible != null)
+        {
             touchingCombustibles.Add(touchingCombustible);
         }
     }
-    
-    void OnCollisionExit(Collision collision) {
+
+    void OnCollisionExit(Collision collision)
+    {
         var touchingCombustible = collision.collider.GetComponent<Fire>();
-        if (touchingCombustible != null) {
+        if (touchingCombustible != null)
+        {
             touchingCombustibles.Remove(touchingCombustible);
         }
     }
@@ -194,17 +246,17 @@ public class Fire : MonoBehaviour
     public static Color GetRGBFromTemperature(double tmpKelvin)
     {
         double tmpCalc;
-        float r,g,b;
- 
+        float r, g, b;
+
         // Temperature must fall between 1000 and 40000 degrees
         if (tmpKelvin < 1000) tmpKelvin = 1000;
         if (tmpKelvin > 40000) tmpKelvin = 40000;
- 
+
         // All calculations require tmpKelvin \ 100, so only do the conversion once
         tmpKelvin /= 100;
- 
+
         // Calculate each color in turn
- 
+
         // First: red
         if (tmpKelvin <= 66)
         {
@@ -219,7 +271,7 @@ public class Fire : MonoBehaviour
             if (r < 0) r = 0;
             if (r > 255) r = 255;
         }
- 
+
         // Second: green
         if (tmpKelvin <= 66)
         {
@@ -239,7 +291,7 @@ public class Fire : MonoBehaviour
             if (g < 0) g = 0;
             if (g > 255) g = 255;
         }
- 
+
         // Third: blue
         if (tmpKelvin >= 66)
         {
@@ -254,12 +306,12 @@ public class Fire : MonoBehaviour
             // Note: the R-squared value for this approximation is .998
             tmpCalc = tmpKelvin - 10;
             tmpCalc = 138.5177312231 * Mathf.Log((float)tmpCalc) - 305.0447927307;
- 
+
             b = (int)tmpCalc;
             if (b < 0) b = 0;
             if (b > 255) b = 255;
         }
 
-        return new Color(r/255f, g/255f, b/255f, 1);
+        return new Color(r / 255f, g / 255f, b / 255f, 1);
     }
 }

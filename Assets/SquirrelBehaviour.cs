@@ -16,11 +16,15 @@ public class SquirrelBehaviour : MonoBehaviour
     private bool standing;
     private float waitingBeforeMoving;
     public float secondsToWaitBeforeMoving = 1f;
+    private AudioSource audioSource;
+    public AudioClip eatSound;
+    public AudioClip petSound;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         ResetWaiting();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -95,10 +99,14 @@ public class SquirrelBehaviour : MonoBehaviour
         //check if obj has tag "acorn"
         if (other.gameObject.CompareTag("acorn"))
         {
+            //remove acorn
             Destroy(other.gameObject);
             other.gameObject.SetActive(false);
-            Debug.Log("Squirrel collided with acorn");
-            followingPlayer = true;
+            //eating sound
+            audioSource.PlayOneShot(eatSound);
+            //add to acorn count
+            acornsRequired--;
+            if(acornsRequired <= 0) followingPlayer = true;
         }
 
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Fire : MonoBehaviour
 {
-    private bool isLit;
+    public bool isLit {get; private set;}
     private bool isCharcoal = false;
     public new Light light;
     private ParticleSystem fireParticles;
@@ -101,6 +101,8 @@ public class Fire : MonoBehaviour
         // // TODO: calculate surface area from mesh
         maximumThermalEnergy = maximumTemperature * specificHeatCapacity;
         Init(temperature);
+
+        GameObject.Find("Player").GetComponent<GameOver>().RegisterNewLog(this);
     }
 
     public void Init(float temperature)

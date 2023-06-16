@@ -11,6 +11,7 @@ public class StoryStart : MonoBehaviour
     private AudioSource startMusicSource;
     private GameObject player;
     private GameObject playerCamera;
+    private GameObject playerSound;
     private GameObject lightningLight;
     // Start is called before the first frame update
     void Start()
@@ -18,11 +19,14 @@ public class StoryStart : MonoBehaviour
         startMusicSource = startMusic.GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        playerSound = GameObject.Find("First Person Audio");
         lightningLight = GameObject.FindGameObjectWithTag("lightning");
 
         //disable player
         player.GetComponent<FirstPersonMovement>().LockMovement();
         playerCamera.GetComponent<FirstPersonLook>().LockCamera();
+        playerSound.SetActive(false);
+
 
         //set it to be transparent
         foreach (TMP_Text w in words)
@@ -34,15 +38,18 @@ public class StoryStart : MonoBehaviour
     }
     IEnumerator RevealText()
     {
-        for (int word = 0; word < words.Length; word++)
-        {
-            StartCoroutine(FadeTextToFullAlpha(1f, words[word]));
+        if (!GameManager.quickStart) {
+            startMusicSource.Play();
+            for (int word = 0; word < words.Length; word++)
+            {
+                StartCoroutine(FadeTextToFullAlpha(1f, words[word]));
+                yield return new WaitForSeconds(2f);
+            }
+            yield return new WaitUntil(() => startMusicSource.isPlaying == false);
+            HideText();
+            // pause...
             yield return new WaitForSeconds(2f);
         }
-        yield return new WaitUntil(() => startMusicSource.isPlaying == false);
-        HideText();
-        // pause...
-        yield return new WaitForSeconds(2f);
         GameObject.FindGameObjectWithTag("Sun").GetComponent<SunController>().SetTime(0);
 
         //disable black screen
@@ -59,6 +66,10 @@ public class StoryStart : MonoBehaviour
         //re-enable player
         player.GetComponent<FirstPersonMovement>().UnlockMovement();
         playerCamera.GetComponent<FirstPersonLook>().UnlockCamera();
+        playerSound.SetActive(true);
+
+        // enable gameover tracker
+        player.GetComponent<GameOver>().StartGame();
 
 
         //fade out

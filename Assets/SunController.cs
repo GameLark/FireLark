@@ -24,7 +24,7 @@ public class SunController : MonoBehaviour
     void UpdateSunLocation() {
         // gameObject.transform.RotateAround(Vector3.zero, Vector3.back, speed * Time.deltaTime);
         transform.Rotate(speed * Time.deltaTime, 0, 0);
-        if (transform.localEulerAngles.x > -105 && transform.localEulerAngles.x < -75) {
+        if (transform.localEulerAngles.x > 255 && transform.localEulerAngles.x < 285) {
             light.enabled = false;
         } else {
             light.enabled = true;
@@ -41,5 +41,9 @@ public class SunController : MonoBehaviour
         //set time
         transform.rotation = Quaternion.Euler(15*time - 90, 0, 0);
         // transform.RotateAround(Vector3.zero, Vector3.back, time * Time.deltaTime);
+    }
+
+    public bool IsNightTime() {
+        return !light.enabled;
     }
 }

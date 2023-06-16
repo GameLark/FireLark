@@ -52,7 +52,7 @@ public class StoryStart : MonoBehaviour
 
         yield return FlashLightningLights();
         yield return new WaitForSeconds(1.5f);
-        var fire = GameObject.FindGameObjectWithTag("log").GetComponent<Fire>();
+        var fire = GameObject.FindGameObjectWithTag("log").GetComponent<Combustible>();
         fire.Init(1000);
         yield return new WaitForSeconds(2f);
 

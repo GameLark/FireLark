@@ -43,7 +43,7 @@ public class StoryStart : MonoBehaviour
         HideText();
         // pause...
         yield return new WaitForSeconds(2f);
-        GameObject.FindGameObjectWithTag("Sun").GetComponent<SunController>().SetTime(12);
+        GameObject.FindGameObjectWithTag("Sun").GetComponent<SunController>().SetTime(0);
 
         //disable black screen
         gameObject.GetComponent<Image>().color = new Color(0, 0, 0, 0);
@@ -51,23 +51,25 @@ public class StoryStart : MonoBehaviour
         lightning.Play();
 
         yield return FlashLightningLights();
-        // lightningLight.SetActive(false); todo remove this
-
+        yield return new WaitForSeconds(1.5f);
+        var fire = GameObject.FindGameObjectWithTag("log").GetComponent<Fire>();
+        fire.Init(1000);
         yield return new WaitForSeconds(2f);
+
         //re-enable player
         player.GetComponent<FirstPersonMovement>().UnlockMovement();
         playerCamera.GetComponent<FirstPersonLook>().UnlockCamera();
 
 
         //fade out
-        Light light = lightningLight.GetComponent<Light>();
-        float i = light.spotAngle;
+        // Light light = lightningLight.GetComponent<Light>();
+        // float i = light.spotAngle;
 
-        while (lightningLight.transform.localPosition.y > -50)
-        {
-            lightningLight.transform.localPosition = new Vector3(lightningLight.transform.localPosition.x, lightningLight.transform.localPosition.y - 0.1f, lightningLight.transform.localPosition.z);
-            yield return new WaitForSeconds(.25f);
-        }
+        // while (lightningLight.transform.localPosition.y > -50)
+        // {
+        //     lightningLight.transform.localPosition = new Vector3(lightningLight.transform.localPosition.x, lightningLight.transform.localPosition.y - 0.1f, lightningLight.transform.localPosition.z);
+        //     yield return new WaitForSeconds(.25f);
+        // }
     }
 
 
@@ -76,59 +78,54 @@ public class StoryStart : MonoBehaviour
 
         Debug.Log("lightning is playing");
 
-        Color red = new Color(255, 0, 0, 255);
-        Color yellow = new Color(255, 255, 0, 255);
-        Color white = new Color(255, 255, 255, 255);
+        Color red = new Color(1, 0, 0, 1);
+        Color yellow = new Color(1, 1, 0, 1);
+        Color white = new Color(1, 1, 1, 1);
         Light light = lightningLight.GetComponent<Light>();
 
         light.color = red;
-        light.intensity = 500;
-        yield return new WaitForSeconds(.2f);
+        light.intensity = 100;
+        yield return new WaitForSeconds(.02f);
 
         light.color = yellow;
         light.intensity = 100;
+
+        yield return new WaitForSeconds(.02f);
+
+        light.intensity = 0;
+
+        yield return new WaitForSeconds(.35f);
+
+        light.color = yellow;
+        light.intensity = 100;
+
+        yield return new WaitForSeconds(.02f);
+
+        light.color = white;
+        light.intensity = 100;
+
+        yield return new WaitForSeconds(.02f);
+
+        light.intensity = 0;
 
         yield return new WaitForSeconds(.2f);
 
         light.color = red;
-        light.intensity = 50;
+        light.intensity = 100;
 
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.02f);
 
         light.color = yellow;
         light.intensity = 100;
 
-        yield return new WaitForSeconds(.2f);
-
-        light.color = white;
-        light.intensity = 50;
-
-        yield return new WaitForSeconds(.2f);
-
-        light.color = yellow;
-        light.intensity = 100;
-
-        yield return new WaitForSeconds(.2f);
-
-        light.color = red;
-        light.intensity = 50;
-
-        yield return new WaitForSeconds(.2f);
-
-        light.color = yellow;
-        light.intensity = 100;
-
-        yield return new WaitForSeconds(.2f);
-
-        light.color = white;
-        light.intensity = 50;
-
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(.02f);
 
         light.intensity = 100;
         light.color = white;
 
+        yield return new WaitForSeconds(.02f);
 
+        light.intensity = 0;
     }
     void HideText()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Fire : MonoBehaviour
 {
-    public bool isLit;
+    private bool isLit;
     public new Light light;
     private ParticleSystem fireParticles;
     private ParticleSystem smokeParticles;
@@ -32,7 +32,7 @@ public class Fire : MonoBehaviour
     private float extinguishTemperature = 523.15f;  // K
     private float maximumTemperature = 1273.15f;
     private float maximumThermalEnergy;
-    public float temperatureToLight = 1.911e-4f;
+    private float emissivity = 5e-5f;
 
     // // Unused variables
 
@@ -90,6 +90,7 @@ public class Fire : MonoBehaviour
         fireParticles = transform.Find("Fire").GetComponent<ParticleSystem>();
         smokeParticles = transform.Find("Smoke").GetComponent<ParticleSystem>();
         meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer.material.EnableKeyword("_EMISSION");
 
         // // calculate volume and surface area
         // Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
@@ -97,10 +98,14 @@ public class Fire : MonoBehaviour
         // Debug.Log($"Volume: {volume}");
         // combustibleVolume = volume; 
         // // TODO: calculate surface area from mesh
-
-        // set up initial thermal energy
-        thermalEnergy = temperature * specificHeatCapacity;
         maximumThermalEnergy = maximumTemperature * specificHeatCapacity;
+        Init(temperature);
+    }
+
+    public void Init(float temperature) {
+        // set up initial thermal energy
+        this.temperature = temperature;
+        thermalEnergy = temperature * specificHeatCapacity;
     }
 
     // Update is called once per frame
@@ -155,12 +160,12 @@ public class Fire : MonoBehaviour
     
     void UpdateVisuals() {
         // // update light
-        light.color = GetRGBFromTemperature(temperature*1.5);
-        lightColor = light.color;
-        light.intensity = isLit ? temperature * temperatureToLight : 0; // if not lit then could be light when hot
-        lightIntensity = light.intensity;
-        meshRenderer.material.EnableKeyword("_EMISSION");
-        meshRenderer.material.SetColor("_EmissionColor", light.color * light.intensity * 1.1f);
+        lightIntensity = temperature * emissivity;
+        lightColor = GetRGBFromTemperature((temperature - extinguishTemperature)*3);
+        light.color = lightColor;
+        light.intensity = isLit ? lightIntensity : 0;
+        var minLightIntensity = extinguishTemperature * emissivity;
+        meshRenderer.material.SetColor("_EmissionColor", light.color * Mathf.Max(lightIntensity - minLightIntensity, 0) * 10f);
 
         var fireEmission = fireParticles.emission;
         var smokeEmission = smokeParticles.emission;

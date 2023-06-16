@@ -34,8 +34,8 @@ public class FirstPersonLook : MonoBehaviour
             velocity.y = Mathf.Clamp(velocity.y, -90, 90);
 
             // Rotate camera up-down and controller left-right from velocity.
-            transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
-            character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
+            transform.localRotation = Quaternion.AngleAxis(-velocity.y + 30, Vector3.right);
+            character.localRotation = Quaternion.AngleAxis(velocity.x + 180, Vector3.up);
         }
     }
     public void LockCamera() {

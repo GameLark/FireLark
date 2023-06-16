@@ -29,8 +29,8 @@ public class Fire : MonoBehaviour
     // constants    
     private float specificHeatCapacity = 1_000;  // J/K
     private float heatingWhenLit = 9;  // W/K
-    private float specificThermalConductivityToAir = 5;  // W/K
-    private float specificThermalConductivityToWood = 50;  // W/K
+    private float specificThermalConductivityToAir = 0.2f;  // W/K  - pseudo physical
+    private float specificThermalConductivityToWood = 50;  // W/K - pseudo physical
     private float ignitionTemperature = 773.15f;  // K
     private float extinguishTemperature = 523.15f;  // K
     private float maximumTemperature = 1273.15f;

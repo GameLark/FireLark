@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4251366474936091839}
   m_Layer: 0
   m_Name: Oak Sapling
-  m_TagString: tree
+  m_TagString: acorn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

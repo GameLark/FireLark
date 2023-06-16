@@ -11,6 +11,8 @@ TagManager:
   - canvas
   - ground
   - lightning
+  - acorn
+  - squirrel
   layers:
   - Default
   - TransparentFX

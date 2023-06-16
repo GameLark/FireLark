@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class GameOver : MonoBehaviour
 {
-    private HashSet<Fire> logs = new HashSet<Fire>();
+    private HashSet<Combustible> logs = new HashSet<Combustible>();
     private SunController sun;
     private bool isGameStarted = false;
     private bool isGameOver = false;
@@ -21,7 +21,7 @@ public class GameOver : MonoBehaviour
         sun = GameObject.Find("Sun").GetComponent<SunController>();
     }
 
-    public void RegisterNewLog(Fire fire) {
+    public void RegisterNewLog(Combustible fire) {
         logs.Add(fire);
     }
     

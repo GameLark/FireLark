@@ -36,7 +36,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4028508394974181023
 MeshFilter:
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b86f854cd55475d4d9e134c8f4e91ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  woodPrefab: {fileID: 6955365753091733274, guid: 96d9595c1204a6041857555e1fed22aa, type: 3}
+  woodPrefab: {fileID: 6558171692765612326, guid: 7ae5ec0523c92c71c999e2b0b2fc2cdb, type: 3}
   saplingPrefab: {fileID: 2556259462429511979, guid: c73e6277c2e33384c81c222e2e1b941b, type: 3}
   chopTime: 2
   chopDamage: 1
@@ -154,7 +154,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldGrow: 0
-  maxTreeSize: 0
   treeMeshes:
   - {fileID: 4300000, guid: cb132eeaea305bc478721cc9b5cb57f8, type: 3}
   - {fileID: 4300000, guid: e063977d54ec61849aacc1b8e9eafc6f, type: 3}

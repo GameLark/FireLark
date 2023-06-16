@@ -10,8 +10,8 @@ public class Fire : MonoBehaviour
     public float thermalEnergy;
 
     // constants
-    private float specificHeatCapacity = 800;  // J/K
-    private float maximumThermalEnergy = 1_000_000; // J
+    private float specificHeatCapacity = 40;  // J/K  - makes keeping fires lit easier at higher values
+    private float maximumThermalEnergy = 1_000; // J - cludge to stop thermal runaway - TODO: use cooling
 
     void Start()
     {
@@ -28,6 +28,9 @@ public class Fire : MonoBehaviour
         if (combustibleChildren == 0) {
             Destroy(gameObject);
         }
+
+        // TODO: Add radiative cooling?
+
     }
 
     void LateUpdate() {

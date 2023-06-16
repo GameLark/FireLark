@@ -38,7 +38,7 @@ public class Combustible : MonoBehaviour
     private float extinguishTemperature = 523.15f;  // K
     private float maximumTemperature = 1273.15f;
     private float maximumThermalEnergy;
-    private float emissivity = 5e-5f;
+    private float emissivity = 1e-4f;
 
     // // Unused variables
 
@@ -291,7 +291,6 @@ public class Combustible : MonoBehaviour
             Debug.Log($"Own parent {ownParent} Other parent {otherParent}");
             if (ownParent != null && ownParent.CompareTag("fire") && otherParent is null) {
                 otherObject.transform.SetParent(ownParent, true);
-
             }
             else if (
                 ownParent != null && otherParent != null && 

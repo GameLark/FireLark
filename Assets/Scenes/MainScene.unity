@@ -200,6 +200,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 530804457201707936, guid: ba32d93d5f0c99c4fbe3fa602dfb26dc, type: 3}
+      propertyPath: petSounds.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 530804457201707936, guid: ba32d93d5f0c99c4fbe3fa602dfb26dc, type: 3}
+      propertyPath: petSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 7cd73b52994e3774693ab4019f01d08c, type: 3}
+    - target: {fileID: 530804457201707936, guid: ba32d93d5f0c99c4fbe3fa602dfb26dc, type: 3}
+      propertyPath: petSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 9a6786f67588b6e4f927f78287c99589, type: 3}
     - target: {fileID: 8591408154232449063, guid: ba32d93d5f0c99c4fbe3fa602dfb26dc, type: 3}
       propertyPath: m_Name
       value: Squirrel

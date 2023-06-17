@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SquirrelBehaviour : MonoBehaviour
+public class SquirrelBehaviour : MonoBehaviour, IInteractable
 {
     public int acornsRequired = 10; //todo show acorn sign above squirrel
     public bool followingPlayer = false;
     public float speed = 0.05f;
     public float jumpIncrement = 0.03f;
+    public float petJumpIncrement = 0.5f;
 
     public float jumpHeight = 0.5f;
     public float minDistance = 2;
@@ -18,7 +19,10 @@ public class SquirrelBehaviour : MonoBehaviour
     public float secondsToWaitBeforeMoving = 1f;
     private AudioSource audioSource;
     public AudioClip eatSound;
-    public AudioClip petSound;
+    public AudioClip[] petSounds;
+    public float petJumpHeight = 0.5f;
+
+    private bool isBeingPetted = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +34,11 @@ public class SquirrelBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isBeingPetted)
+        {
+            JumpUpAndDown(true, petJumpHeight, petJumpIncrement);
+            if (!isJumpingUp) isBeingPetted = false;
+        }
         if (followingPlayer)
         {
             //move towards player but always keep 10m away
@@ -41,11 +50,12 @@ public class SquirrelBehaviour : MonoBehaviour
                 {
                     //reduce waiting time
                     waitingBeforeMoving -= Time.deltaTime;
-                    if (waitingBeforeMoving <=0) standing = false;
+                    if (waitingBeforeMoving <= 0) standing = false;
                 }
-                else {
+                else
+                {
                     transform.position = moveTowards;
-                    JumpUpAndDown();
+                    JumpUpAndDown(false, jumpHeight, jumpIncrement);
 
                 }
             }
@@ -63,26 +73,28 @@ public class SquirrelBehaviour : MonoBehaviour
         standing = true;
         waitingBeforeMoving = secondsToWaitBeforeMoving;
     }
-    void JumpUpAndDown()
+    void JumpUpAndDown(bool jumpOnce = false, float height = 0.5f, float increment = 0.03f)
     {
         //jump whilst walking
         if (isJumpingUp)
         {
             Debug.Log("Jumping up");
-            float newY = transform.position.y + jumpIncrement;
+            float newY = transform.position.y + increment;
             transform.position = new Vector3(transform.position.x, newY, transform.position.z);
             Debug.Log("newY: " + newY);
-            if (newY >= jumpHeight) isJumpingUp = false;
+            if (newY >= height) isJumpingUp = false;
         }
         else
         {
             Debug.Log("Jumping down");
-            float newY = transform.position.y - jumpIncrement;
+            float newY = transform.position.y - increment;
             transform.position = new Vector3(transform.position.x, newY, transform.position.z);
-            if (newY <= 0) isJumpingUp = true;
+            if (!jumpOnce && newY <= 0) isJumpingUp = true;
+            if (jumpOnce) isBeingPetted = false;
         }
 
     }
+
     void JumpDown()
     {
         float newY = transform.position.y - jumpIncrement;
@@ -106,8 +118,14 @@ public class SquirrelBehaviour : MonoBehaviour
             audioSource.PlayOneShot(eatSound);
             //add to acorn count
             acornsRequired--;
-            if(acornsRequired <= 0) followingPlayer = true;
+            if (acornsRequired <= 0) followingPlayer = true;
         }
 
+    }
+
+    public void Interact(RaycastHit hitData)
+    {
+        AudioClip petSound = petSounds[Random.Range(0, petSounds.Length)];
+        audioSource.PlayOneShot(petSound);
     }
 }

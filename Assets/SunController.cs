@@ -5,7 +5,7 @@ using UnityEngine;
 public class SunController : MonoBehaviour
 {
 
-    public float speed = 1;
+    private float speed = 2.5f;
     private new Light light;
 
     
@@ -44,6 +44,6 @@ public class SunController : MonoBehaviour
     }
 
     public bool IsNightTime() {
-        return !light.enabled;
+        return transform.localEulerAngles.x > 180 && transform.localEulerAngles.x < 360;
     }
 }

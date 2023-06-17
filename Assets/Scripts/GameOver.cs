@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -32,11 +31,11 @@ public class GameOver : MonoBehaviour
     {
         if (isGameStarted && !isGameOver && sun.IsNightTime() && !logs.Select(log => log.isLit).Any(isLit => isLit)) {
             // if no logs are lit
-            BeginGameOver();
+            StartCoroutine(BeginGameOver());
         }
     }
 
-    async void BeginGameOver() {
+    IEnumerator BeginGameOver() {
         Debug.Log("Game Over");
         isGameOver = true;
         
@@ -49,19 +48,19 @@ public class GameOver : MonoBehaviour
         GameObject.Find("Fireflies").SetActive(false);
 
         audioSource.PlayOneShot(monsterSound);
-        await Task.Delay((int)(monsterSound.length * 1000));
+        yield return new WaitUntil(() => audioSource.isPlaying == false);
         var blackScreen = GameObject.Find("End Black").GetComponent<Image>();
         blackScreen.color = Color.black;
-        await Task.Delay(2000);
+        yield return new WaitForSeconds(2);
         audioSource.PlayOneShot(Resources.Load<AudioClip>("timpani_1"));
         blackScreen.transform.Find("DARKNESS").GetComponent<TMPro.TMP_Text>().color = Color.white;
-        await Task.Delay(2500);
+        yield return new WaitForSeconds(2.5f);
         audioSource.PlayOneShot(Resources.Load<AudioClip>("timpani_2"));
         blackScreen.transform.Find("IS").GetComponent<TMPro.TMP_Text>().color = Color.white;
-        await Task.Delay(2500);
+        yield return new WaitForSeconds(2.5f);
         audioSource.PlayOneShot(Resources.Load<AudioClip>("timpani_3"));
         blackScreen.transform.Find("DEATH").GetComponent<TMPro.TMP_Text>().color = Color.white;
-        await Task.Delay(7000);
+        yield return new WaitForSeconds(7);
         // Restart the game but without the intro music
         GameManager.quickStart = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

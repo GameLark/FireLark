@@ -19,7 +19,7 @@ public class InteractControl : MonoBehaviour
 
 
             // e interaction
-            if (Input.GetKeyDown("e")) {
+            if (Input.GetKeyDown("e") || Input.GetMouseButtonDown(0)) {
                 // Get the script that implements IInteractable, and call Interact()
                 var interactScripts = hitData.transform.gameObject.GetComponents<IInteractable>();
  

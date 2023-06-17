@@ -8,36 +8,28 @@ public class TreeSound : MonoBehaviour
     public AudioClip[] treeHitSounds;
     public AudioClip[] treeFellSounds;
 
-    private AudioSource audioSource;
-
     void Start()
     {
         // load treeSounds from assets/trees
         treeHitSounds = Resources.LoadAll<AudioClip>("tree/hit");
         treeFellSounds = Resources.LoadAll<AudioClip>("tree/fell");
-
-        // create global AudioSource GameObject
-        audioSource = new GameObject("TreeSound").AddComponent<AudioSource>();
     }
-
-    void OnDestroy()
-    {
-        // wait for the sound to finish playing before destroying the object
-
-        // clip duration 
-        float clipDuration = audioSource.clip.length;
-
-        // destroy the object after the clip duration
-        Destroy(audioSource.gameObject, clipDuration);
-    }
-
     private void PlayRandomSound(AudioClip[] sounds)
     {
+
+        // create global audio source
+        AudioSource audioSource = new GameObject("treeSound").AddComponent<AudioSource>();
+
         // adjust pitch and volume
         audioSource.pitch = Random.Range(0.8f, 1.2f);
         audioSource.volume = Random.Range(0.8f, 1.2f);
 
-        audioSource.PlayOneShot(sounds[Random.Range(0, sounds.Length)]);
+        var clip = sounds[Random.Range(0, sounds.Length)];
+
+        audioSource.PlayOneShot(clip);
+
+        // destroy audio source
+        Destroy(audioSource, clip.length);
     }
 
 

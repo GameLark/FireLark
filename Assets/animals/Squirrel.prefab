@@ -851,11 +851,15 @@ MonoBehaviour:
   followingPlayer: 0
   speed: 0.05
   jumpIncrement: 0.03
+  petJumpIncrement: 0.5
   jumpHeight: 0.5
   minDistance: 2
   secondsToWaitBeforeMoving: 1
   eatSound: {fileID: 8300000, guid: 48adf7609a9255742b264efae2612fcf, type: 3}
-  petSound: {fileID: 8300000, guid: 9a6786f67588b6e4f927f78287c99589, type: 3}
+  petSounds:
+  - {fileID: 8300000, guid: 7cd73b52994e3774693ab4019f01d08c, type: 3}
+  - {fileID: 8300000, guid: 9a6786f67588b6e4f927f78287c99589, type: 3}
+  petJumpHeight: 0.5
 --- !u!114 &7193675540449361382
 MonoBehaviour:
   m_ObjectHideFlags: 0

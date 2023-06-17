@@ -13,6 +13,8 @@ TagManager:
   - lightning
   - acorn
   - squirrel
+  - credits
+  - intro
   layers:
   - Default
   - TransparentFX

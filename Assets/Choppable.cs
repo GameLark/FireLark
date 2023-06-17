@@ -8,7 +8,9 @@ public class Choppable : MonoBehaviour, IInteractable
     public GameObject woodPrefab;
     public GameObject saplingPrefab;
 
-    
+    private TreeSound treeSound;
+
+
     public float chopTime = 2f;
     public float chopDamage = 1f;
     private float currentHealth = 5f; // TODO: make this based off of the current tree type
@@ -19,9 +21,18 @@ public class Choppable : MonoBehaviour, IInteractable
         Chop();
     }
 
-    private void onTreeDestroy(){
+    void Start()
+    {
+        treeSound = GetComponent<TreeSound>();
+    }
+
+    private void onTreeDestroy()
+    {
         // get size of the tree
         int treeWoodCount = GetComponent<TreeGrowth>().GetTreeValue();
+
+        // play tree fell sound
+        treeSound.PlayFellSound();
 
         Vector3 spawnPosition = transform.position; // spawn position is at the center of the current position
         for (int i = 0; i < treeWoodCount; i++)
@@ -42,7 +53,7 @@ public class Choppable : MonoBehaviour, IInteractable
         }
     }
 
-    
+
     public void Chop()
     {
         // make the object shake 
@@ -56,16 +67,16 @@ public class Choppable : MonoBehaviour, IInteractable
         // apply damage to the tree
         currentHealth -= chopDamage;
 
-        Debug.Log(currentHealth);
         if (currentHealth <= 0)
         {
             onTreeDestroy();
 
-            // TODO: play a sound, drop wood, etc.
-            // destroy the tree
             Destroy(gameObject);
         }
+        else
+        {
+            // play chop sounds
+            treeSound.PlayHitSound();
+        }
     }
-
-   
 }

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -2346073772534314542}
   - component: {fileID: 674715834692089713}
   - component: {fileID: 7954653748292044160}
+  - component: {fileID: -1030683568321045714}
   m_Layer: 0
   m_Name: Growing Oak
   m_TagString: tree
@@ -172,3 +173,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-1030683568321045714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2556259462429511979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6b263bcaf4af4d4d91407d8978b839b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treeHitSounds: []
+  treeFellSounds: []

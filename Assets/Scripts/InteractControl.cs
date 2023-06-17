@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InteractControl : MonoBehaviour
 {
-    public Camera camera;
+    public new Camera camera;
     public double treeInteractionDistance = 2.0;
     Ray ray;
     RaycastHit hitData;

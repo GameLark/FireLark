@@ -19,7 +19,6 @@ public class ScaleTransform : MonoBehaviour
         {
             var deltaTime = Time.deltaTime;
             gameObject.transform.localScale = Vector3.Lerp(startScale, targetScale, elapsedTime / duration);
-            Debug.Log("Scale: " + gameObject.transform.localScale + "deltaTime: " + deltaTime + "elapsedTime: " + elapsedTime + "duration: " + duration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }

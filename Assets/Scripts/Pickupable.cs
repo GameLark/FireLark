@@ -1,12 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using cakeslice;
 using UnityEngine;
 // --------------------------------------------------------------------------------
-// FYI: This script needs to be on the same GameObject that a Rigidbody, and MeshCollider are on
+// FYI: This script needs to be on the same GameObject that a Rigidbody, Outline, and MeshCollider are on
 // --------------------------------------------------------------------------------
 public class Pickupable : MonoBehaviour, IInteractable
 {
-    public void Interact(RaycastHit hitData) {
+
+    private Outline outline;
+
+    private bool isPickedUp = false;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        outline = GetComponent<Outline>();
+        outline.enabled = false;
+    }
+
+    public void Interact(RaycastHit hitData)
+    {
         // get main camera 
         Camera camera = Camera.main;
         // get the fixed joint on the camera
@@ -16,10 +30,14 @@ public class Pickupable : MonoBehaviour, IInteractable
         Rigidbody targetRigidBody = hitData.transform.gameObject.GetComponent<Rigidbody>();
 
         // if the camera has a fixed joint, destroy it
-        if (fixedJoint != null) {
+        if (fixedJoint != null)
+        {
             Destroy(fixedJoint);
             targetRigidBody.GetComponent<MeshCollider>().isTrigger = false;
-        } else {
+            isPickedUp = false;
+        }
+        else
+        {
             // connect
             fixedJoint = camera.gameObject.AddComponent<FixedJoint>();
             fixedJoint.connectedBody = targetRigidBody;
@@ -32,6 +50,10 @@ public class Pickupable : MonoBehaviour, IInteractable
 
             meshCollider.isTrigger = true;
 
+            isPickedUp = true;
+
+            outline.enabled = true;
+
             // call the OnPickup function on the target if the script is not null
             IPickupable script = targetRigidBody.GetComponent<IPickupable>();
             if (script != null)
@@ -41,9 +63,33 @@ public class Pickupable : MonoBehaviour, IInteractable
 
         }
     }
+
+    public void OnHoverEnter()
+    {
+        EnableOutline();
+    }
+
+    public void OnHoverExit()
+    {
+        DisableOutline();
+    }
+
+    public void EnableOutline()
+    {
+        outline.enabled = true;
+    }
+
+    public void DisableOutline()
+    {
+        if (!isPickedUp)
+        {
+            outline.enabled = false;
+        }
+    }
 }
 
 
-public interface IPickupable {
+public interface IPickupable
+{
     void OnPickup();
 }

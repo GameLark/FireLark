@@ -13,6 +13,7 @@ public class GameOver : MonoBehaviour
     private bool isGameOver = false;
     private AudioClip monsterSound;
     private AudioSource audioSource;
+    private bool isGameEnded = false;
 
     void Start() {
         audioSource = GetComponent<AudioSource>();
@@ -27,9 +28,12 @@ public class GameOver : MonoBehaviour
     public void StartGame() {
         isGameStarted = true;
     }
+    public void EndGame() {
+        isGameEnded = true;
+    }
     void Update()
     {
-        if (isGameStarted && !isGameOver && sun.IsNightTime() && !logs.Select(log => log.isLit).Any(isLit => isLit)) {
+        if (isGameStarted && !isGameOver && !isGameEnded && sun.IsNightTime() && !logs.Select(log => log.isLit).Any(isLit => isLit)) {
             // if no logs are lit
             StartCoroutine(BeginGameOver());
         }

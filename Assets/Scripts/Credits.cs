@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Credits : MonoBehaviour
 {
-    private GameObject credits;
+    public static GameObject credits;
     // Start is called before the first frame update
     void Start()
     {

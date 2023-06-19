@@ -10,6 +10,9 @@ public class InteractControl : MonoBehaviour
     Ray ray;
     RaycastHit hitData;
 
+    // may not be the best place to put this... 
+    public bool isHoldingAxe = false;
+
     GameObject lastTarget = null;
     // Update is called once per frame
     void Update()

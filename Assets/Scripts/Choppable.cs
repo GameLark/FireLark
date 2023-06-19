@@ -12,12 +12,13 @@ public class Choppable : MonoBehaviour, IInteractable
 
 
     public float chopTime = 2f;
-    public float chopDamage = 1f;
-    private float currentHealth = 5f; // TODO: make this based off of the current tree type
+    public float handChopDamage = 1f;
+
+    public float axeChopDamage = 5f;
+    private float currentHealth = 20f;
 
     public void Interact(RaycastHit hitData)
     {
-        Debug.Log("tree interact");
         Chop();
     }
 
@@ -65,6 +66,11 @@ public class Choppable : MonoBehaviour, IInteractable
         }
 
         // apply damage to the tree
+
+        bool isHoldingAxe = GameObject.Find("Player").GetComponent<InteractControl>().isHoldingAxe;
+
+        var chopDamage = isHoldingAxe ? axeChopDamage : this.handChopDamage;
+
         currentHealth -= chopDamage;
 
         if (currentHealth <= 0)

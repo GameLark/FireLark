@@ -5,16 +5,18 @@ using System.Collections;
 public class Fire : MonoBehaviour
 {
     [ShowOnly]
-    public float temperature = 293.15f;
+    public float temperature;
     [ShowOnly]
     public float thermalEnergy;
 
     // constants
     private float specificHeatCapacity = 40;  // J/K  - makes keeping fires lit easier at higher values TODO: base on number of logs
-    private float maximumThermalEnergy = 1_000_000; // J - cludge to stop thermal runaway - TODO: use cooling
+    private float ambientTemperature = 293.15f;  // K
+
 
     void Start()
     {
+        temperature = ambientTemperature;
         thermalEnergy = specificHeatCapacity * temperature;
     }
 
@@ -29,12 +31,12 @@ public class Fire : MonoBehaviour
             Destroy(gameObject);
         }
 
-        // TODO: Add radiative cooling?
+        // each tick, lose some energy to the surrounding air
+        thermalEnergy -= specificHeatCapacity * (ambientTemperature - temperature) * Time.deltaTime;
 
     }
 
     void LateUpdate() {
-        thermalEnergy = Mathf.Min(thermalEnergy, maximumThermalEnergy);
         temperature = thermalEnergy / specificHeatCapacity;
     }
 }

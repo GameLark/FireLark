@@ -14,6 +14,7 @@ public class Combustible : MonoBehaviour
     private MeshRenderer meshRenderer;
 
     private HashSet<Combustible> touchingCombustibles = new HashSet<Combustible>();
+    private bool removedFromFire = false;  // flag to track fire splitting
 
     [ShowOnly]
     public float lightIntensity;
@@ -33,7 +34,7 @@ public class Combustible : MonoBehaviour
     private readonly float ambientTemperature = 293.15f; // K
     private float specificHeatCapacity = 1_000;  // J/K
     private float heatingWhenLit = 10;  // W/K
-    private float proportionOfRadiativeHeating = 0.5f;  // ratio of self air heating to self heating
+    private float proportionOfRadiativeHeating = 0.75f;  // ratio of self air heating to self heating
     private float specificThermalConductivityToAir = 1f;  // W/K  - pseudo physical
     private float specificThermalConductivityToWood = 50;  // W/K - pseudo physical
     private float ignitionTemperature = 773.15f;  // K
@@ -97,7 +98,7 @@ public class Combustible : MonoBehaviour
         smokeParticles = transform.Find("Smoke").GetComponent<ParticleSystem>();
         meshRenderer = GetComponent<MeshRenderer>();
         meshRenderer.material.EnableKeyword("_EMISSION");
-        GameObject.Find("Player").GetComponent<GameOver>().RegisterNewLog(this);
+        // GameObject.Find("Player").GetComponent<GameOver>().RegisterNewLog(this);
 
         // // calculate volume and surface area
         // Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
@@ -278,6 +279,7 @@ public class Combustible : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        Debug.Log($"{gameObject.name} OnCollisionEnter....");
         var otherObject = collision.collider.gameObject;
         var touchingCombustible = otherObject.GetComponent<Combustible>();
         // 1. check if the touching combustible is part of an existing fire
@@ -298,7 +300,12 @@ public class Combustible : MonoBehaviour
                 ownParent.CompareTag("fire") && otherParent.CompareTag("fire")
             ) {
                 foreach (Transform otherFiresChild in otherParent) {
-                    otherFiresChild.SetParent(ownParent, true);
+                    if (otherFiresChild.tag == "log") {
+                        otherFiresChild.SetParent(ownParent, true);
+                    }
+                    else {
+                        Debug.Log($"Child of other parent is tagged {otherFiresChild.tag}.");
+                    }
                 }
                 var ownFire = ownParent.GetComponent<Fire>();
                 var otherFire = otherParent.GetComponent<Fire>();
@@ -310,22 +317,27 @@ public class Combustible : MonoBehaviour
 
     void OnCollisionExit(Collision collision)
     {
+        Debug.Log($"{gameObject.name} OnCollisionExit....");
         var touchingCombustible = collision.collider.GetComponent<Combustible>();
         if (touchingCombustible != null)
         {
             touchingCombustibles.Remove(touchingCombustible);
-        }
 
-        // check if this log now has no touchingCombustibles
-        if (touchingCombustibles.Count == 0) {
-            if (isLit) {
-                // if so, and the log is lit: create a new fire with this log as a child
-                var newParent = Instantiate(transform.parent);
-                transform.SetParent(newParent);
-            }
-            else {
-                // if so, but the log is not lit: remove the log from the existing parent only
-                transform.SetParent(null);
+            // check if this log now has no touchingCombustibles
+            if (touchingCombustibles.Count == 0) {
+
+                Debug.Log($"{gameObject.name} have no touching combustibles...");
+                if (isLit) {
+                    Debug.Log($"{gameObject.name} is lit, so new parent required...");
+                    // if so, and the log is lit: create a new fire with this log as a child
+                    var newParent = Instantiate(transform.parent.GetComponent<Fire>().firePrefab);
+                    transform.SetParent(newParent.transform);
+                }
+                else {
+                    Debug.Log($"{gameObject.name} is not lit, so setting parent to null...");
+                    // if so, but the log is not lit: remove the log from the existing parent only
+                    transform.SetParent(null);
+                }
             }
         }
     }

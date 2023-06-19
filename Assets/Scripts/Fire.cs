@@ -9,9 +9,11 @@ public class Fire : MonoBehaviour
     [ShowOnly]
     public float thermalEnergy;
 
+    public GameObject firePrefab;
+
     // constants
     private float specificHeatCapacity = 40;  // J/K  - makes keeping fires lit easier at higher values TODO: base on number of logs
-    private float specificThermalConductivityToAir = 100f;  // W/K  - how much heat is transferred to surrounding air per second per degree
+    private float specificThermalConductivityToAir = 75f;  // W/K  - how much heat is transferred to surrounding air per second per degree
     private float ambientTemperature = 293.15f;  // K
 
     void Start()

@@ -25,7 +25,7 @@ public class Combustible : MonoBehaviour
     // variables
     private float thermalEnergy;  // J
     [ShowOnly]
-    public float combustibleEnergy = 750_000;  // J 
+    public float combustibleEnergy = 3_000_000;  // J 
     public float temperature;  // K
     private float airTemperature; // K
     private float charcoalHitPoints = 100_000;  // HP!
@@ -33,7 +33,7 @@ public class Combustible : MonoBehaviour
     // constants    
     private readonly float ambientTemperature = 293.15f; // K
     private float specificHeatCapacity = 1_000;  // J/K
-    private float heatingWhenLit = 10;  // W/K
+    private float heatingWhenLit = 20;  // W/K
     private float proportionOfRadiativeHeating = 0.75f;  // ratio of self air heating to self heating
     private float specificThermalConductivityToAir = 1f;  // W/K  - pseudo physical
     private float specificThermalConductivityToWood = 50;  // W/K - pseudo physical
@@ -98,7 +98,7 @@ public class Combustible : MonoBehaviour
         smokeParticles = transform.Find("Smoke").GetComponent<ParticleSystem>();
         meshRenderer = GetComponent<MeshRenderer>();
         meshRenderer.material.EnableKeyword("_EMISSION");
-        // GameObject.Find("Player").GetComponent<GameOver>().RegisterNewLog(this);
+        GameObject.Find("Player").GetComponent<GameOver>().RegisterNewLog(this);
 
         // // calculate volume and surface area
         // Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
@@ -279,7 +279,6 @@ public class Combustible : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log($"{gameObject.name} OnCollisionEnter....");
         var otherObject = collision.collider.gameObject;
         var touchingCombustible = otherObject.GetComponent<Combustible>();
         // 1. check if the touching combustible is part of an existing fire
@@ -287,10 +286,10 @@ public class Combustible : MonoBehaviour
         // add it's parent fire's children
         if (touchingCombustible != null)
         {
+            Debug.Log($"{gameObject.name} OnCollisionEnter with combustible");
 
             var ownParent = transform.parent;
             var otherParent = otherObject.transform.parent;
-            Debug.Log($"Own parent {ownParent} Other parent {otherParent}");
             if (ownParent != null && ownParent.CompareTag("fire") && otherParent is null) {
                 otherObject.transform.SetParent(ownParent, true);
             }
@@ -317,10 +316,10 @@ public class Combustible : MonoBehaviour
 
     void OnCollisionExit(Collision collision)
     {
-        Debug.Log($"{gameObject.name} OnCollisionExit....");
         var touchingCombustible = collision.collider.GetComponent<Combustible>();
         if (touchingCombustible != null)
         {
+            Debug.Log($"{gameObject.name} OnCollisionExit with combustible");
             touchingCombustibles.Remove(touchingCombustible);
 
             // check if this log now has no touchingCombustibles
@@ -330,7 +329,7 @@ public class Combustible : MonoBehaviour
                 if (isLit) {
                     Debug.Log($"{gameObject.name} is lit, so new parent required...");
                     // if so, and the log is lit: create a new fire with this log as a child
-                    var newParent = Instantiate(transform.parent.GetComponent<Fire>().firePrefab);
+                    var newParent = Instantiate(Resources.Load<GameObject>("Fire"));
                     transform.SetParent(newParent.transform);
                 }
                 else {

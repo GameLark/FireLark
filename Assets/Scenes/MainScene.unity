@@ -2673,6 +2673,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: End game fire (temp)
       objectReference: {fileID: 0}
+    - target: {fileID: 6955365753091733274, guid: 96d9595c1204a6041857555e1fed22aa, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

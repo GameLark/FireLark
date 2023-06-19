@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class EndGame : MonoBehaviour
 {
-    private HashSet<Fire> endGameFires = new HashSet<Fire>();
+    private HashSet<Combustible> endGameLogs = new HashSet<Combustible>();
     private GameObject boat;
     private float boatSpeed = 10;
     private bool isEndGame = false;
@@ -22,21 +22,21 @@ public class EndGame : MonoBehaviour
     void Update()
     {
         if (!isEndGame) {
-            foreach (var fire in endGameFires) {
+            foreach (var log in endGameLogs) {
                 // TODO: use thermal energy of fire - currently that's not reliable
-                if (fire.transform.GetChild(0).GetComponent<Combustible>().isLit && !isEndGame) {
-                    StartCoroutine(TriggerEndGame(fire));    
+                if (log.isLit && !isEndGame) {
+                    StartCoroutine(TriggerEndGame(log));    
                 }
             }
         }
     }
 
-    private IEnumerator TriggerEndGame(Fire fire)
+    private IEnumerator TriggerEndGame(Combustible log)
     {
         Debug.Log("Game end");
         isEndGame = true;
         boat.SetActive(true);
-        var fireLocation = fire.transform.GetChild(0).position; // TODO: what is the location of the fire? For now this is good enough
+        var fireLocation = log.transform.position; // TODO: what is the location of the fire? For now this is good enough
         var player = GameObject.Find("Player");
         while ((fireLocation - boat.transform.position).magnitude > 5) {
             boat.transform.position += (fireLocation - boat.transform.position).normalized * boatSpeed * Time.deltaTime;
@@ -83,13 +83,7 @@ public class EndGame : MonoBehaviour
         var touchingCombustible = otherObject.GetComponent<Combustible>();
         if (touchingCombustible != null)
         {
-            var parent = touchingCombustible.transform.parent;
-            if (parent.CompareTag("fire")) {
-                var fire = parent.GetComponent<Fire>();
-                if (fire != null) {
-                    endGameFires.Add(fire);
-                }
-            }
+            endGameLogs.Add(touchingCombustible);
         }
     }
 }

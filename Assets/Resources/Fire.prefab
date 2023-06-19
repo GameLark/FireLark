@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   temperature: 293.15
   thermalEnergy: 0
-  firePrefab: {fileID: 6955365753091733274}
+  firePrefab: {fileID: 0}

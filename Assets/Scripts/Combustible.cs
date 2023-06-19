@@ -25,20 +25,19 @@ public class Combustible : MonoBehaviour
     private float thermalEnergy;  // J
     [ShowOnly]
     public float combustibleEnergy = 750_000;  // J 
-    public float temperature = 293.15f;  // K
-    private float airTemperature = 293.15f; // K
+    public float temperature;  // K
+    private float airTemperature; // K
     private float charcoalHitPoints = 100_000;  // HP!
 
     // constants    
+    private readonly float ambientTemperature = 293.15f; // K
     private float specificHeatCapacity = 1_000;  // J/K
     private float heatingWhenLit = 10;  // W/K
-    private float proportionOfRadiativeHeating = 0.1f;  // ratio of self air heating to self heating
-    private float specificThermalConductivityToAir = 0.2f;  // W/K  - pseudo physical
+    private float proportionOfRadiativeHeating = 0.5f;  // ratio of self air heating to self heating
+    private float specificThermalConductivityToAir = 1f;  // W/K  - pseudo physical
     private float specificThermalConductivityToWood = 50;  // W/K - pseudo physical
     private float ignitionTemperature = 773.15f;  // K
     private float extinguishTemperature = 523.15f;  // K
-    private float maximumTemperature = 1273.15f;
-    private float maximumThermalEnergy;
     private float emissivity = 1e-4f;
 
     // // Unused variables
@@ -106,8 +105,21 @@ public class Combustible : MonoBehaviour
         // Debug.Log($"Volume: {volume}");
         // combustibleVolume = volume; 
         // // TODO: calculate surface area from mesh
-        maximumThermalEnergy = maximumTemperature * specificHeatCapacity;
+        
+        airTemperature = GetAirTemp();
+        temperature = ambientTemperature;
         Init(temperature);
+    }
+
+    float GetAirTemp(){
+        var parent = transform.parent;
+        if (parent != null) {
+            var parentFire = parent.GetComponent<Fire>();
+            if (parentFire != null) {
+                return parentFire.temperature;    
+            }
+        }
+        return ambientTemperature;
     }
 
     public void Init(float temperature)
@@ -126,33 +138,29 @@ public class Combustible : MonoBehaviour
 
     void UpdateFire()
     {
-
         // 1. heat self due to burning
-        var burnEnergy = 0f;
-        var coolingEnergy = 0f;
+        var internalEnergy = 0f;
         if (isLit)
         {
-            burnEnergy = Mathf.Min(heatingWhenLit * temperature * Time.deltaTime, combustibleEnergy);
+            internalEnergy = Mathf.Min(heatingWhenLit * temperature * Time.deltaTime, combustibleEnergy);
             // 2. burn some internal fuel - reduce energy here - extinguish if no energy left
-            combustibleEnergy -= burnEnergy;
+            combustibleEnergy -= internalEnergy;
         }
-        else {
-            coolingEnergy = specificThermalConductivityToAir * (airTemperature - temperature) * Time.deltaTime;
-        }
+        var externalEnergy = specificThermalConductivityToAir * (airTemperature - temperature) * Time.deltaTime;
 
         // 3. heat/cool self due to touching other objects
         var conductionEnergy = 0f;
         foreach (var touchingCombustible in touchingCombustibles)
         {
-            conductionEnergy +=specificThermalConductivityToWood * (touchingCombustible.temperature - temperature) * Time.deltaTime;
+            conductionEnergy += specificThermalConductivityToWood * (touchingCombustible.temperature - temperature) * Time.deltaTime;
         }
-        thermalEnergy += conductionEnergy + (1 - proportionOfRadiativeHeating) * burnEnergy + coolingEnergy;
-        UpdateParentFire(burnEnergy);
+        thermalEnergy += conductionEnergy + (1 - proportionOfRadiativeHeating) * internalEnergy + externalEnergy;
+        UpdateParentFire(internalEnergy);
         
     }
-
+    
     void UpdateParentFire(float burnEnergy) {
-        var energyRadiated = (maximumThermalEnergy - thermalEnergy) + proportionOfRadiativeHeating * burnEnergy;
+        var energyRadiated = proportionOfRadiativeHeating * burnEnergy;
         var parent = transform.parent;
         if (parent != null) {
             var parentFire = parent.GetComponent<Fire>();
@@ -170,16 +178,7 @@ public class Combustible : MonoBehaviour
     void UpdateTemperature()
     {
         temperature = thermalEnergy / specificHeatCapacity; 
-
-        var newAirTemperature = 293.15f;
-        var parent = transform.parent;
-        if (parent != null) {
-            var parentFire = parent.GetComponent<Fire>();
-            if (parentFire != null) {
-                newAirTemperature = parentFire.temperature;    
-            }
-        }
-        airTemperature = newAirTemperature;
+        airTemperature = GetAirTemp();
     }
 
     void UpdateIsLit()

@@ -11,6 +11,7 @@ public class Fire : MonoBehaviour
 
     // constants
     private float specificHeatCapacity = 40;  // J/K  - makes keeping fires lit easier at higher values TODO: base on number of logs
+    private float specificThermalConductivityToAir = 100f;  // W/K  - how much heat is transferred to surrounding air per second per degree
     private float ambientTemperature = 293.15f;  // K
 
     void Start()
@@ -31,7 +32,7 @@ public class Fire : MonoBehaviour
         }
 
         // each tick, lose some energy to the surrounding air
-        thermalEnergy -= specificHeatCapacity * (ambientTemperature - temperature) * Time.deltaTime;
+        thermalEnergy += specificThermalConductivityToAir * (ambientTemperature - temperature) * Time.deltaTime;
 
     }
 

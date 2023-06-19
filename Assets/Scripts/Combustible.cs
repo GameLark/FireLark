@@ -25,7 +25,7 @@ public class Combustible : MonoBehaviour
     [ShowOnly]
     public float combustibleEnergy = 750_000;  // J 
     public float temperature = 293.15f;  // K
-    private float airTemperature = 293.15f; // K - TODO: have fire heat air
+    private float airTemperature = 293.15f; // K
     private float charcoalHitPoints = 100_000;  // HP!
 
     // constants    
@@ -148,7 +148,6 @@ public class Combustible : MonoBehaviour
         thermalEnergy += conductionEnergy + (1 - proportionOfRadiativeHeating) * burnEnergy + coolingEnergy;
         UpdateParentFire(burnEnergy);
         
-        thermalEnergy = Mathf.Min(thermalEnergy, maximumThermalEnergy); // TODO: revisit as it's just a hacky way to cap temperature
     }
 
     void UpdateParentFire(float burnEnergy) {

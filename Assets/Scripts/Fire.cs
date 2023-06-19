@@ -13,7 +13,6 @@ public class Fire : MonoBehaviour
     private float specificHeatCapacity = 40;  // J/K  - makes keeping fires lit easier at higher values TODO: base on number of logs
     private float ambientTemperature = 293.15f;  // K
 
-
     void Start()
     {
         temperature = ambientTemperature;

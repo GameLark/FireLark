@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Combustible : MonoBehaviour
 {
+    
     public bool isLit {get; private set;}
     private bool isCharcoal = false;
     private bool isIgnited = false;
@@ -282,7 +283,7 @@ public class Combustible : MonoBehaviour
         var touchingCombustible = otherObject.GetComponent<Combustible>();
         // 1. check if the touching combustible is part of an existing fire
         // if it is:
-        // add it's parent fire's childred
+        // add it's parent fire's children
         if (touchingCombustible != null)
         {
 
@@ -311,11 +312,22 @@ public class Combustible : MonoBehaviour
     void OnCollisionExit(Collision collision)
     {
         var touchingCombustible = collision.collider.GetComponent<Combustible>();
-        // TODO: work out how to split a fire  - don't worry about this now
-        // e.g. compare touching combustibles trees?
         if (touchingCombustible != null)
         {
             touchingCombustibles.Remove(touchingCombustible);
+        }
+
+        // check if this log now has no touchingCombustibles
+        if (touchingCombustibles.Count == 0) {
+            if (isLit) {
+                // if so, and the log is lit: create a new fire with this log as a child
+                var newParent = Instantiate(transform.parent);
+                transform.SetParent(newParent);
+            }
+            else {
+                // if so, but the log is not lit: remove the log from the existing parent only
+                transform.SetParent(null);
+            }
         }
     }
 

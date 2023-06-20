@@ -9920,7 +9920,7 @@ MonoBehaviour:
   lightIntensity: 0
   lightColor: {r: 0, g: 0, b: 0, a: 0}
   combustibleEnergy: 3000000
-  temperature: 0
+  temperature: 293.15
 --- !u!114 &5452392747870479154
 MonoBehaviour:
   m_ObjectHideFlags: 0

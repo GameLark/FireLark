@@ -22,16 +22,8 @@ public class Combustible : MonoBehaviour
     public Color lightColor;
 
     // Fire parameters
-    // variables
-    private float thermalEnergy;  // J
-    [ShowOnly]
-    public float combustibleEnergy = 3_000_000;  // J 
-    public float temperature;  // K
-    private float airTemperature; // K
-    private float charcoalHitPoints = 100_000;  // HP!
-
-    // constants    
-    private readonly float ambientTemperature = 293.15f; // K
+      // constants    
+    private static float ambientTemperature = 293.15f; // K
     private float specificHeatCapacity = 1_000;  // J/K
     private float heatingWhenLit = 20;  // W/K
     private float proportionOfRadiativeHeating = 0.75f;  // ratio of self air heating to self heating
@@ -40,6 +32,14 @@ public class Combustible : MonoBehaviour
     private float ignitionTemperature = 773.15f;  // K
     private float extinguishTemperature = 523.15f;  // K
     private float emissivity = 1e-4f;
+
+    // variables
+    private float thermalEnergy;  // J
+    [ShowOnly]
+    public float combustibleEnergy = 3_000_000;  // J 
+    public float temperature = ambientTemperature;  // K
+    private float airTemperature; // K
+    private float charcoalHitPoints = 100_000;  // HP!
 
     // // Unused variables
 
@@ -99,6 +99,7 @@ public class Combustible : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
         meshRenderer.material.EnableKeyword("_EMISSION");
         GameObject.Find("Player").GetComponent<GameOver>().RegisterNewLog(this);
+        
 
         // // calculate volume and surface area
         // Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
@@ -108,7 +109,7 @@ public class Combustible : MonoBehaviour
         // // TODO: calculate surface area from mesh
         
         airTemperature = GetAirTemp();
-        temperature = ambientTemperature;
+        Debug.Log($"Starting Log with temp {temperature} K");
         Init(temperature);
     }
 

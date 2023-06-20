@@ -233,6 +233,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "me.ameye.prefab-painter": {
+      "version": "https://github.com/alexanderameye/prefab-painter.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "f78b6b205ab54296ca4fd27c509a665367f84347"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "me.ameye.prefab-painter": "https://github.com/alexanderameye/prefab-painter.git",
     "com.unity.collab-proxy": "2.0.4",
     "com.unity.feature.development": "1.0.1",
     "com.unity.ide.rider": "3.0.21",

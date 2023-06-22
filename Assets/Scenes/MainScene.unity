@@ -25413,6 +25413,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Island
       objectReference: {fileID: 0}
+    - target: {fileID: 1459907359315757007, guid: 3c9c78ec2629a034d805f0aa5c2d21c1, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 5214875276791586410, guid: 3c9c78ec2629a034d805f0aa5c2d21c1, type: 3}
+      propertyPath: m_TagString
+      value: ground
+      objectReference: {fileID: 0}
     - target: {fileID: 7234099854639584033, guid: 3c9c78ec2629a034d805f0aa5c2d21c1, type: 3}
       propertyPath: m_RootOrder
       value: 4

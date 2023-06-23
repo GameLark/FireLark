@@ -58,6 +58,7 @@ public class InteractControl : MonoBehaviour
 
                 foreach (var script in interactScripts)
                 {
+                    Debug.Log("Interacting with " + script + " on " + hitData.transform.gameObject);
                     script.Interact(hitData);
                 }
             }

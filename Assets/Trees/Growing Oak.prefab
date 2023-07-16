@@ -73,10 +73,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b86f854cd55475d4d9e134c8f4e91ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  woodPrefab: {fileID: 6955365753091733274, guid: 96d9595c1204a6041857555e1fed22aa, type: 3}
+  woodPrefab: {fileID: 6558171692765612326, guid: 7ae5ec0523c92c71c999e2b0b2fc2cdb, type: 3}
   saplingPrefab: {fileID: 2556259462429511979, guid: 4d3863fecb2e39f46b5d7d74b8d8c78b, type: 3}
   chopTime: 2
-  chopDamage: 1
+  handChopDamage: 1
+  axeChopDamage: 5
 --- !u!114 &3503019718070858552
 MonoBehaviour:
   m_ObjectHideFlags: 0

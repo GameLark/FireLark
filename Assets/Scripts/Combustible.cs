@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Combustible : MonoBehaviour
@@ -24,17 +25,19 @@ public class Combustible : MonoBehaviour
     // Fire parameters
       // constants    
     private static float ambientTemperature = 293.15f; // K
-    private float specificHeatCapacity = 1_000;  // J/K
+    public static readonly float specificHeatCapacity = 1_000;  // J/K
     private float heatingWhenLit = 20;  // W/K
     private float proportionOfRadiativeHeating = 0.75f;  // ratio of self air heating to self heating
     private float specificThermalConductivityToAir = 1f;  // W/K  - pseudo physical
     private float specificThermalConductivityToWood = 50;  // W/K - pseudo physical
     private float ignitionTemperature = 773.15f;  // K
     private float extinguishTemperature = 523.15f;  // K
-    private float emissivity = 1e-4f;
+    private float emissivity = 7e-4f;
+    private float textureEmissivity = 1.4f;
+    private float lightRangeFactor = 20;
 
     // variables
-    private float thermalEnergy;  // J
+    public float thermalEnergy {get; private set;}  // J
     [ShowOnly]
     public float combustibleEnergy = 3_000_000;  // J 
     public float temperature = ambientTemperature;  // K
@@ -254,11 +257,14 @@ public class Combustible : MonoBehaviour
         lightColor = GetRGBFromTemperature((temperature - extinguishTemperature) * 3);
         light.color = lightColor;
         light.intensity = isLit ? lightIntensity : 0;
+        if (isLit) {
+            light.range = lightRangeFactor * Mathf.Log(transform.parent.GetComponent<Fire>().combustibleChildren.Where(c => c.isLit).Count() * Mathf.Exp(1));
+        }
         var minLightIntensity = extinguishTemperature * emissivity;
 
         if (!isCharcoal)
         {
-            meshRenderer.material.SetColor("_EmissionColor", light.color * Mathf.Max(lightIntensity - minLightIntensity, 0) * 10f);
+            meshRenderer.material.SetColor("_EmissionColor", light.color * Mathf.Max(lightIntensity - minLightIntensity, 0) * textureEmissivity);
         }
         else
         {

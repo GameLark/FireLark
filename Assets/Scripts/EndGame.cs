@@ -12,6 +12,9 @@ public class EndGame : MonoBehaviour
     private float boatSpeed = 10;
     private bool isEndGame = false;
 
+    // > 10 logs at 1000 degrees
+    private readonly float endGameFireEnergy = Combustible.specificHeatCapacity * 1000 * 10;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +27,8 @@ public class EndGame : MonoBehaviour
         if (!isEndGame) {
             foreach (var log in endGameLogs) {
                 // TODO: use thermal energy of fire - currently that's not reliable
-                if (log.isLit && !isEndGame) {
+                var fire = log.transform.parent.GetComponent<Fire>();
+                if (fire != null && fire.TotalThermalEnergyOfChildren() > endGameFireEnergy && !isEndGame) {
                     StartCoroutine(TriggerEndGame(log));    
                 }
             }

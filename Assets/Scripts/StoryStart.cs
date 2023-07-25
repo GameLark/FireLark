@@ -13,6 +13,8 @@ public class StoryStart : MonoBehaviour
     private GameObject playerCamera;
     private GameObject playerSound;
     private GameObject lightningLight;
+    private MonologueManager monologue;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,7 @@ public class StoryStart : MonoBehaviour
         playerCamera = GameObject.FindGameObjectWithTag("MainCamera");
         playerSound = GameObject.Find("First Person Audio");
         lightningLight = GameObject.FindGameObjectWithTag("lightning");
+        monologue = GameObject.Find("Inner Monologue").GetComponent<MonologueManager>();
 
         //disable player
         player.GetComponent<FirstPersonMovement>().LockMovement();
@@ -62,6 +65,7 @@ public class StoryStart : MonoBehaviour
         var fire = GameObject.Find("First Log").GetComponent<Combustible>();
         fire.Init(1000);
         yield return new WaitForSeconds(2f);
+        monologue.SetEnabled(true);
 
         //re-enable player
         player.GetComponent<FirstPersonMovement>().UnlockMovement();
@@ -70,6 +74,11 @@ public class StoryStart : MonoBehaviour
 
         // enable gameover tracker
         player.GetComponent<GameOver>().StartGame();
+
+        yield return new WaitForSeconds(1f);
+        monologue.SetVisibleTime(0.5f);
+        yield return new WaitForSeconds(0.5f);
+        monologue.SetEnabled(false);
 
 
         //fade out

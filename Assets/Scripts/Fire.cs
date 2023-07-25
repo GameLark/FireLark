@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Fire : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Fire : MonoBehaviour
     public float temperature;
     [ShowOnly]
     public float thermalEnergy;
+    private MonologueManager monologue;
 
     // constants
     private float specificHeatCapacity = 40;  // J/K  - makes keeping fires lit easier at higher values TODO: base on number of logs
@@ -19,6 +21,7 @@ public class Fire : MonoBehaviour
     {
         temperature = ambientTemperature;
         thermalEnergy = specificHeatCapacity * temperature;
+        monologue = GameObject.Find("Inner Monologue").GetComponent<MonologueManager>();
     }
 
     public float TotalThermalEnergyOfChildren() {
@@ -40,6 +43,15 @@ public class Fire : MonoBehaviour
         combustibleChildren = _combustibleChildren;
         if (combustibleChildren.Count == 0) {
             Destroy(gameObject);
+        }
+        if (combustibleChildren.Count > 2)
+        {
+            monologue.ShowMessage_Smother();
+        }
+        var litChildren = combustibleChildren.Where(cc => cc.isLit);
+        if (litChildren.Count() > 0 && litChildren.Where(lc => lc.combustibleEnergy < Combustible.initialCombustibleEnergy / 4f).Count() == litChildren.Count())
+        {
+            monologue.ShowMessage_GoingOut();
         }
 
         // each tick, lose some energy to the surrounding air

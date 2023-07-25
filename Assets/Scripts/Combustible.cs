@@ -35,11 +35,12 @@ public class Combustible : MonoBehaviour
     private float emissivity = 7e-4f;
     private float textureEmissivity = 1.4f;
     private float lightRangeFactor = 20;
+    public static float initialCombustibleEnergy = 3_000_000;
 
     // variables
     public float thermalEnergy {get; private set;}  // J
     [ShowOnly]
-    public float combustibleEnergy = 3_000_000;  // J 
+    public float combustibleEnergy = initialCombustibleEnergy;  // J 
     public float temperature = ambientTemperature;  // K
     private float airTemperature; // K
     private float charcoalHitPoints = 100_000;  // HP!
